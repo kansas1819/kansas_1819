@@ -1,0 +1,28 @@
+This package contains OMR Sheets and Buffer Sheets to be used only for the {\bi Core} portion of CSAS. Buffer Sheets are provided
+for use only in {\bi emergency situations}. The buffer sheets are different for {\bi Classes (4,5)} and {\bi Classes (6,7,8,9)}.
+Use {\bi Buffer Sheet C1} for {\bi Classes(4,5)} and {\bi Buffer Sheet C2} for {\bi Classes (6,7,8,9)}.
+Please ensure that the right buffer sheet is used.
+
+\subject {Before the test}
+\vskip-1ex
+\startitemize[n,packed, joinedup, nowhite]
+\item Check to see if you received the right package, the print quality is good and the right number
+  of sheets(Table 1) are enclosed. If not, please contact the concerned official immediately.
+  \item If you need to make a copy of the buffer sheet, make sure the Xerox quality is good.
+    \stopitemize
+    \subject {During the test}
+    \vskip-1ex
+\startitemize[n,packed, joinedup, nowhite]
+\item  The OMR sheet is filled by placing a check mark in the corresponding answer box. Example: \symbol[BigSquare].
+\item In case of a mistake, the check marked box should be filled and then place a check mark in the right box. Example: \WhiteOnBlack{}
+  \hskip1em \symbol[BigSquare]
+    \item If the student is absent, please fill the {\bi absent} check box(below the QR code) and include it in the package.    
+  \stopitemize
+  \vskip-1ex
+\subject{After the test}
+    \vskip-1ex
+\startitemize[1,packed, joinedup, nowhite]
+  \item Make sure that the "Question paper set" portion of the OMR sheet is filled.
+  \item Fill the "Table 2" section of this sheet, sign it and place the sheet at the top of the bundle.
+  \item Pack the {\bi Languages} and {\bi Core} portions of the test separately in the envelope provided by KSQAAC.
+  \stopitemize

@@ -1,0 +1,190 @@
+\setupbodyfont[12pt]
+\setuplayout[backspace=20mm,
+    width=170mm,
+    topspace=30mm,
+    header=5mm, 
+    footer=20mm,
+    height=250mm]
+\setuppagenumbering[state={stop}]
+\defineparagraphs 
+[mypar][n=2]
+\setupparagraphs [mypar][1][width=0.75\textwidth]
+\setupparagraphs [mypar][2][width=0.1\textwidth]
+\startsetups booktabs
+\setupTABLE[frame=off, rulethickness=0.5bp, loffset=1em]
+\setupTABLE[column][first][loffset=0em]
+\setupTABLE[row][first][topframe=on, rulethickness=1bp]
+\setupTABLE[row][2][topframe=on, rulethickness=0.5bp]
+\setupTABLE[row][last] [bottomframe=on, rulethickness=0.75bp]
+\stopsetups
+\unexpanded\def\fourdots{{\def\periodswidth{.4em}\periods[16]}}
+\setupfootertexts[][{
+	 \setupTABLE[frame=off, rulethickness=0.5bp, offset=1ex]
+	 \bTABLE[align=left]
+	 \bTR \bTD Signature: \fourdots \eTD \eTR
+	 \bTR \bTD Date: \fourdots \eTD \eTR
+	 \eTABLE
+}][][]
+\starttext
+\startalignment[middle]
+\tfc State Assessment Survey (SA1 Paper 1)
+\stopalignment
+\blank[2*medium]
+\hrule
+\blank[2*big]
+
+\startluacode
+local tex = {}
+local function cschooltable(data)
+   tex[#tex+1] = '\\bTABLE[frame=off]'
+   for i,v in ipairs(data) do
+      if i <= 3 then
+	 tex[#tex+1] = '\\bTR '
+	 for n,j in pairs(v) do
+	    tex[#tex+1] = '\\bTD \\tfa ' .. v[n]  .. '\\eTD'
+	 end
+	 tex[#tex+1] = '\\eTR'
+      else
+	 tex[#tex+1] = '\\eTABLE'
+	 tex[#tex+1] = '\\blank[2*big]'
+	 tex[#tex+1] = '\\startalignment[center]'
+	 tex[#tex+1] = '\\tfb ' .. v[2]
+	 tex[#tex+1] = '\\stopalignment \n \\blank[1*big] \n'
+      end
+   end
+end
+
+local function ctablerow(row)
+   tex[#tex+1] = '\\bTR '
+   for i,v in ipairs(row) do
+      tex[#tex+1] = '\\bTD ' .. v  .. '\\eTD'
+   end
+   tex[#tex+1] = '\\eTR '
+end
+
+local function sheettable(cols,rows)
+   tex[#tex+1] = '\\placetable{Enclosed Sheets}{'
+   tex[#tex+1] = '\\startplacetable[location={force,split,none}]'
+   tex[#tex+1] = '\\setupTABLE[c][each][loffset=1ex, roffset=1ex]'
+   tex[#tex+1] = '\\bTABLE[setups=booktabs, align=middle]'
+   ctablerow(cols)
+   for i,v in ipairs(rows) do
+      ctablerow(v)
+   end
+   tex[#tex+1] = '\\eTABLE'
+   tex[#tex+1] = '\\stopplacetable\n}'
+   tex[#tex+1] = '\\blank[3*big]\n \\blank[1*medium]'
+   
+   local rcopy = table.fastcopy(rows)
+   for i=1,#rcopy do
+      rcopy[i][2] = ''
+   end
+   tex[#tex+1] = '\\blank[3*big]'
+   tex[#tex+1] = 'Fill the following table after the assessment, sign it and place this sheet at the top of the bundle.'
+   tex[#tex+1] = '\\blank[1*big]'
+   table.insert(rcopy,1, {'Standard', 'Filled OMR Sheets\\\\(num)'})
+   tex[#tex+1] = '\\placetable{Filled Sheets}{'
+   tex[#tex+1] = '\\startplacetable[location={force,split,none}]'
+   tex[#tex+1] = '\\setupTABLE[c][each][loffset=1ex, roffset=1ex]'
+   tex[#tex+1] = '\\bTABLE[align={middle, lohi}]'
+   for i,v in ipairs(rcopy) do
+      ctablerow(v)
+   end
+   tex[#tex+1] = '\\bTR \\bTD[nc=2, align=right, frame=off] \\hskip2em Total: \\eTD \\eTR'
+   tex[#tex+1] = '\\eTABLE'
+   tex[#tex+1] = '\\stopplacetable\n}'
+end
+
+local function genCover()
+   local csvobj = utilities.parsers.rfc4180splitter{
+      separator = ",",
+      quote = '"',
+   }
+   local csvfile = io.loaddata(".schinfo")
+   -- with header variant
+   local tablerows, cols = csvobj(csvfile,true)
+   --cols = clobberCols(cols)
+   --inspect(tablerows)
+   --inspect(cols)
+   cschooltable(tablerows)
+   local csvfile = io.loaddata(".numsheets")
+   -- with header variant
+   local tablerows, cols = csvobj(csvfile,true)
+   --cols = clobberCols(cols)
+   --inspect(tablerows)
+   --inspect(cols)
+   sheettable(cols,tablerows)
+   context(table.concat(tex,"\n"))
+end
+
+local function qpSetString(row)
+   local qpstr = ''
+   local s = row['STANDARD']
+   local l = row['LANG']
+     qpstr = string.format('{\\hskip3.95cm \\type{%s1%s} \\hskip0.85ex \\type{%s2%s} \\hskip0.85ex \\type{%s3%s} \\hskip0.85ex \\type{%s4%s}}',s,l,s,l,s,l,s,l)
+   return qpstr
+end
+
+local function cPage(row,cols)
+   local names = {}
+   for i,cname in ipairs(cols) do
+      names[cname] = row[i]
+   end
+   names['QPS'] = qpSetString(names)
+   --inspect(names)
+   if names['STANDARD'] == "4" or names['STANDARD'] == "5" then
+      context('\\defineoverlay[backgroundfigure][\\overlayfigure{../45-lang-sig.pdf}]')
+      context('\\setupbackgrounds[page][background=backgroundfigure]')
+   else
+      context('\\defineoverlay[backgroundfigure][\\overlayfigure{../69-lang-sig.pdf}]')
+      context('\\setupbackgrounds[page][background=backgroundfigure]')
+   end
+   page = [[  \startmypar
+      \starttabulate[|w(2cm)|p(9cm)|]
+        \NC \bf Name: \NC $STUNAME \NC \NR
+        \NC \bf School: \NC {\type {$SCHOOLNAME}} \NC \NR
+        \NC \bf Standard: \NC $STANDARD \NC \NR
+        \NC \bf ID: \NC $CHILDENROLLNO \NC \NR
+        \NC \NC $QPS \NC \NR
+      \stoptabulate
+      \mypar
+      \externalfigure[$Images]
+    \stopmypar
+   ]]
+   context(string.gsub(page, "%$(%w+)", names))
+   --print(string.gsub(page, "%$(%w+)", names))
+end
+
+local function clobberCols(cols)
+   local ncols = {}
+   for i,v in ipairs(cols) do
+      ncols[#ncols+1] = string.gsub(v,'_','')
+   end
+   return ncols
+end
+
+function genPdf()
+   local csvobj = utilities.parsers.rfc4180splitter{
+      separator = ",",
+      quote = '"',
+   }
+   local csvfile = io.loaddata("sch.csv")
+   -- with header variant
+   local tablerows, cols = csvobj(csvfile,true)
+   cols = clobberCols(cols)
+   
+   for i,row in ipairs(tablerows) do
+      cPage(row, cols)
+      if i < #tablerows then
+	 context('\\page[yes]')
+      end
+   end
+end
+
+genCover()
+local tex = {'\\page[yes]'}
+tex[#tex+1] = '\\setupfootertexts[]'
+context(table.concat(tex,"\n"))
+genPdf()
+\stopluacode
+\stoptext

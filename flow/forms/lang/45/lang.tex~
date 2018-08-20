@@ -1,0 +1,19 @@
+\documentclass[12pt]{standalone}
+\usepackage[utf8]{inputenc}
+\usepackage{fontspec}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{datatool}
+\usepackage{tikz}
+\usepackage{pdfpages}
+\usetikzlibrary{calc, positioning, fit}
+\newfontfamily{\ka}[]{Kedage}
+
+\begin{document}
+\begin{tikzpicture}
+  \node {\ka ವಿಷಯಗಳು};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,21 @@
+[sdaps]
+title = \-\vspace {1ex}\Large \textbf {\phantom {State Assessment Survey}}
+global_id = 
+
+[info]
+
+[defs]
+# These values are not read back, they exist for information only!
+paper_width = 210.0
+paper_height = 297.0
+print_questionnaire_id = False
+print_survey_id = True
+style = code128
+duplex = False
+checkmode = checkcorrect
+
+[questionnaire]
+# These values are not read back, they exist for information only!
+page_count = 1
+survey_id = 1323026095
+
