@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import pandas as pd
 import numpy as np
-import os
+import os, sys
 import subprocess
 from collections import defaultdict
 import tempfile
@@ -65,16 +65,28 @@ def sampleSize(
     denom = M**2 + ((z**2 * sigma**2)/(N-1))
     return int(numerator/denom)
 
+def getCsvFiles(folder):
+    '''
+    Return a list of the CSV files in the folder
+    '''
+    csvfiles = []
+    for rootdir, subdirs, cfiles in os.walk(folder):
+        for csvf in cfiles:
+            if csvf.endswith(".csv"):
+                csvfiles.append('{}/{}'.format(rootdir, csvf))
+    return csvfiles
+
 def xtract(pdf,page,npdf,tmpdir):
     cmd = ['pdftk', pdf, 'cat', str(page), 'output', '{}/{}'.format(tmpdir,npdf)]
     print(' '.join(cmd))
     subprocess.run(' '.join(cmd), shell=True, check=True)
 
-def extractPages(df, opts):
-    testdir = opts.tdir
+def extractPages(opts):
+    df = opts.df
+    testdir = 'test'
     papertype = opts.papertype
     data = df[['pdf', 'page','npdf']].values.tolist()
-    district = df.DISTRICT_NAME.unique().tolist()[0]
+    district = df.DISTRICT_NAME.unique().tolist()[0].replace(' ','_')
     #block = df.BRC_ID.unique().tolist()[0]
     with tempfile.TemporaryDirectory() as tmpdir:
         z = [x.append(tmpdir) for x in data]
@@ -110,18 +122,10 @@ def extractPages(df, opts):
         dbspath = '{}/forms/{}/69/db'.format(opts.flowdir, papertype)
         cmd = 'cp -r {} {}'.format(dbspath, dbdpath)
         subprocess.run(cmd, shell=True, check=True)
+
+
+def processDistrict(opts):
         
-def main():
-    parser = argparse.ArgumentParser("Generate the QR Codes and setup the flow for Pdf generation.")
-    parser.add_argument("--tdir", nargs='?', default=os.getcwd(), help="Create the tree in this dir.")
-    parser.add_argument("--flowdir",required=True, help="Flow directory path for config files, etc.")
-    parser.add_argument("--pdfdir",required=True, help="Directory containing the PDF files.")
-    parser.add_argument("--csvfile",required=True, help="csvfilen to process.")
-    optstring = '--tdir testdir --csvfile foo.csv --pdfdir foo --flowdir /home/sikshana/sas/flow'
-    opts = parser.parse_args(optstring.split())
-    opts.csv = '/d/data/north/kodagu_with_qr.csv'
-    opts.tdir='testdir'
-    opts.papertype='lang'
     df = pd.read_csv(opts.csv).sort_values(['SCHOOL_ID', 'STANDARD','STU_NAME'])
     df['page'] = df.groupby(['SCHOOL_ID']).cumcount() + 2
 
@@ -136,8 +140,33 @@ def main():
         sdf['npdf'] = sdf.apply(lambda x: '{}-{}-{}.pdf'.format(x.SCHOOL_ID,x.STANDARD, x.page),axis=1)
         sdf['pdf'] = sdf.apply(lambda x: '{}/{}/{}-{}.pdf'.format(
             opts.pdfdir,x.SCHOOL_ID, x.SCHOOL_ID, ptype),axis=1)
-        opts.testdir='testdir'
         opts.papertype=ptype
-        extractPages(sdf,opts)
-    
+        opts.df = sdf
+        extractPages(opts)
+
+        
+def main():
+    parser = argparse.ArgumentParser("Generate the QR Codes and setup the flow for Pdf generation.")
+    parser.add_argument("--rundir", nargs='?', default=os.getcwd(), help="Create the tree in this dir.")
+    parser.add_argument("--flowdir",required=True, help="Flow directory path for config files, etc.")
+    parser.add_argument("--csvdir",required=True, help="csv folder to process.")
+    optstring = '--rundir sample --csvdir ../sample_csvs --flowdir /home/sikshana/sas/flow'
+    #opts = parser.parse_args(optstring.split())
+    opts = parser.parse_args()
+    if not os.path.isdir(opts.csvdir):
+        print('Csv folder {} does not exist'.format(opts.csvdir))
+        sys.exit(1)
+    if not os.path.isdir(opts.rundir):
+        print('Run folder {} does not exist'.format(opts.rundir))
+        sys.exit(1)
+        
+    csvfiles = getCsvFiles(opts.csvdir)
+    csvl = len(csvfiles)
+    for i, csvf in enumerate(csvfiles):
+        print('Processing PDF({}) for testing: {} of {}'.format(csvf, i+1, csvl))
+        opts.csv = csvf
+        distname = os.path.basename(csvf)
+        opts.pdfdir = '{}/{}'.format(opts.rundir, os.path.splitext(distname)[0])
+        processDistrict(opts)
+        
 main()
