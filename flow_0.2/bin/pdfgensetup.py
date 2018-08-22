@@ -20,11 +20,22 @@ def mkdir_p(path):
         else:
             raise
 
+def getCsvFiles(folder):
+    '''
+    Return a list of the CSV files in the folder
+    '''
+    csvfiles = []
+    for rootdir, subdirs, cfiles in os.walk(folder):
+        for csvf in cfiles:
+            if csvf.endswith(".csv"):
+                csvfiles.append('{}/{}'.format(rootdir, csvf))
+    return csvfiles
+                                 
 def dirName(groupkeys, opts):
     if isinstance(groupkeys, tuple):
         return '/'.join(map(str, groupkeys))
     else:
-        return '{}/{}'.format(opts.dir,str(groupkeys))
+        return '{}/{}'.format(opts.rundir,str(groupkeys))
     
 def genBarCodePng(x):
     ''' 
@@ -123,7 +134,7 @@ def genBarCodes(grps, opts):
     data = []
     for k,v in grps:
         key = str(k)
-        fkey = '{}/{}'.format(opts.dir,key)
+        fkey = '{}/{}'.format(opts.rundir,key)
         mkdir_p('{}/cover'.format(fkey))
         # need to link to the common context tex file
         # dump out the csv file for the school
@@ -150,9 +161,9 @@ def genBarCodes(grps, opts):
         fname = '{}/.schinfo'.format(fkey)
         sinfo.to_csv(fname, index=False)
         if opts.encrypt:
-            data.append((opts.dir, key, v[['CHILD_ENROLL_NO', 'EQR_L', 'EQR_C']].values.tolist()))
+            data.append((opts.rundir, key, v[['CHILD_ENROLL_NO', 'EQR_L', 'EQR_C']].values.tolist()))
         else:
-            data.append((opts.dir, key, v[['CHILD_ENROLL_NO', 'QR_CODE_L','QR_CODE_C']].values.tolist()))
+            data.append((opts.rundir, key, v[['CHILD_ENROLL_NO', 'QR_CODE_L','QR_CODE_C']].values.tolist()))
         buffname = '{}/cover/buffers.tex'.format(fkey)
         writeContextTables(numsheets, buffname) 
         
@@ -206,12 +217,12 @@ def latex(x):
     Replace all the special characters in the string x to
     be "ConteXt" friendy inorder to generate pdf without errors.
     '''
-    return (x.replace('\\', '\\textbackslash').replace('_', '\textunderscore')
-            .replace('%', '\\\textpercent').replace('$', '\\textdollar')
-            .replace('#', '\\#').replace('{', '\\textbraceleft')
-            .replace('}', '\\textbraceright').replace('~', '\\textasciitilde')
-            .replace('^', '\\textasciicircum').replace('&', '\\&')
-            .replace('|', '\\textbar'))
+    return (x.replace('\\', '\\textbackslash ').replace('_', '\textunderscore ')
+            .replace('%', '\\\textpercent ').replace('$', '\\textdollar ')
+            .replace('#', '\\#').replace('{', '\\textbraceleft ')
+            .replace('}', '\\textbraceright ').replace('~', '\\textasciitilde ')
+            .replace('^', '\\textasciicircum ').replace('&', '\\& ')
+            .replace('|', '\\textbar '))
 
 def qrcode(x):
     '''
@@ -289,38 +300,52 @@ def popCfgFiles(opts):
     files = ['69-lang-sig.pdf', '69-core-sig.pdf', '45-lang-sig.pdf', '45-core-sig.pdf']
     for f in files:
         src = '{}/forms/{}'.format(opts.flowdir, f)
-        dst = '{}/{}'.format(opts.dir, f)
+        dst = '{}/{}'.format(opts.rundir, f)
         os.symlink(src,dst)
     srcm = '{}/pdf/Makefile.SUB'.format(opts.flowdir)
-    dstm = '{}/Makefile'.format(opts.dir)
+    dstm = '{}/Makefile'.format(opts.rundir)
     os.symlink(srcm, dstm)
 
 def main():
     parser = argparse.ArgumentParser("Generate the QR Codes and setup the flow for Pdf generation.")
-    parser.add_argument("--dir", nargs='?', default=os.getcwd(), help="Create the tree in this dir.")
+    parser.add_argument("--rundir", nargs='?', default=os.getcwd(), help="Create the tree in this dir.")
     parser.add_argument("--flowdir",required=True, help="Flow directory path for config files, etc.")
-    parser.add_argument("--csvfile",required=True, help="csvfilen to process.")
+    parser.add_argument("--csvdir",required=True, help="Dir containing csv files to process..")
     parser.add_argument("--encrypt",action='store_true', help="Encode encrypted QR codes.")
+    args = '--flowdir /home/sikshana/sas/flow --rundir sample --csvdir sample_csvs --encrypt'
+    #opts = parser.parse_args(args.split())
     opts = parser.parse_args()
-        
-    if not os.path.isdir(opts.dir):
-        print ("Directory {} does not exist.".format(opts.dir))
-        sys.exit(1)
+    if not os.path.isdir(opts.rundir):
+        print ("Directory {} does not exist.".format(opts.rundir))
+        print ('Creating run dir {}'.format(opts.rundir))
+        os.makedirs(opts.rundir, exist_ok=True)
         
     if not os.path.isdir(opts.flowdir):
         print ("Directory {} does not exist.".format(opts.flowdir))
         sys.exit(1)
         
-    if not os.path.isfile(opts.csvfile):
-        print ("File {} does not exist.".format(opts.csvfile))
+    if not os.path.isdir(opts.csvdir):
+        print ("csvdir {} does not exist.".format(opts.csvdir))
         sys.exit(1)
-        
-    # start the processing
-    df = formatData(opts.csvfile)
-    grps = df.groupby('SCHOOL_ID')
-    genBarCodes(grps, opts)
-    popCfgFiles(opts)
+
+    
+    rundirtop = opts.rundir
+    csvfiles = getCsvFiles(opts.csvdir)
+    csvlen = len(csvfiles)
+    print(csvfiles)
+    for i, csvf in enumerate(csvfiles):
+        print('Processing {}: {} of {}.'.format(csvf, i+1 , csvlen))
+        opts.csvfile = csvf
+        distname = os.path.basename(csvf)
+        opts.rundir = '{}/{}'.format(rundirtop, os.path.splitext(distname)[0])
+        # create the dist folder
+        os.makedirs(opts.rundir, exist_ok=True)
+        # start the processing
+        df = formatData(opts.csvfile)
+        grps = df.groupby('SCHOOL_ID')
+        genBarCodes(grps, opts)
+        popCfgFiles(opts)
     
 if __name__=='__main__':
     main()
-
+    #getCsvFiles("./sample_csvs/")
