@@ -1,35 +1,9 @@
-FLOWDIR:=/home/reddy/sas/flow
-PDFGEN:=$(FLOWDIR)/bin/pdfgensetup.py
-PDFGENOPTS:=--encrypt
-ROOT_DIRECTORY=.
-CSV:=$(wildcard ../csv/*)
-DIRS := $(subst ../csv/,,$(CSV))
-SDIRS:= $(patsubst %.csv,%,$(DIRS))
-SETUP:= $(patsubst %.csv,%/.setup, $(DIRS))
-#SUBDIRS := $(wildcard */.)
+SUBDIRS:= $(shell ls -d */*/)
 
-
-define ruletemp
-$(1)/.setup: ../csv/$(strip $(1)).csv
-	$$(PDFGEN) $$(PDFGENOPTS) --flowdir $$(FLOWDIR) --dir $(1) --csv $$<
-	touch $$@
-endef
-$(foreach src,$(SDIRS),$(eval $(call ruletemp, $(src))))
-
-TOPTARGETS := all clean
-
-$(TOPTARGETS): | $(SETUP) pdf.mk pdf
-
-pdf: $(SUBDIRS)
-
-pdf.mk: $(SETUP)
-	echo "Creating"
-	echo "SUBDIRS=\$$(shell ls -d */*/)" > $@
-
--include pdf.mk
+default: all
 
 $(SUBDIRS)::
-	echo "Making $@"
-	$(MAKE) -j4 -C $@ $(MAKECMDGOALS)
+	@echo `date`
+	$(MAKE) -C $@ $(MAKECMDGOALS) 
 
-.PHONY: $(TOPTARGETS) $(SUBDIRS) pdf
+all chk cleani pclean cleanpdf cleanchk: $(SUBDIRS)
