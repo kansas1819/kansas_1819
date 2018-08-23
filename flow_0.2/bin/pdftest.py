@@ -134,7 +134,7 @@ def processDistrict(opts):
     confinter = 5
     sigma = 1/2
     nsamples = sampleSize(popsize)
-    print("Sampling {} sheets.".format(nsamples)
+    print("Sampling {} sheets.".format(nsamples))
     for ptype in ['core', 'lang']:
         sdf = df.sample(nsamples)
         sdf['npdf'] = sdf.apply(lambda x: '{}-{}-{}.pdf'.format(x.SCHOOL_ID,x.STANDARD, x.page),axis=1)
