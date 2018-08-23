@@ -1,11 +1,11 @@
 SDAPSDB  :=db
 SDAPS    :=sdaps
-FLOW     := /p/home/sikshana/nsbars/flow
+FLOW     := /home/sikshana/sas/flow
 VERIFY   := $(FLOW)/bin/csvverify.py
 GS       :=gs
 GSOPTS   := -q -dNOPAUSE -dBATCH -r300 -sDEVICE=tiffg4 -sPAPERSIZE=a4
-TOPDIR   :=/d/data/pdf/tst/ch300
-PDF      := $(wildcard $(TOPDIR)/*/*/*stamp.pdf)
+TOPDIR   :=.
+PDF      := $(wildcard $(TOPDIR)/*/*/*/*stamp.pdf)
 DIRS     := $(dir $(PDF))
 TIFF     := $(patsubst %.pdf, %.tif, $(PDF))
 DB       := $(addsuffix .db, $(DIRS))

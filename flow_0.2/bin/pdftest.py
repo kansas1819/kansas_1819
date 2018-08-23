@@ -83,7 +83,7 @@ def xtract(pdf,page,npdf,tmpdir):
 
 def extractPages(opts):
     df = opts.df
-    testdir = 'test'
+    testdir = '{}/test'.format(opts.rundir)
     papertype = opts.papertype
     data = df[['pdf', 'page','npdf']].values.tolist()
     district = df.DISTRICT_NAME.unique().tolist()[0].replace(' ','_')
@@ -134,7 +134,7 @@ def processDistrict(opts):
     confinter = 5
     sigma = 1/2
     nsamples = sampleSize(popsize)
-
+    print("Sampling {} sheets.".format(nsamples)
     for ptype in ['core', 'lang']:
         sdf = df.sample(nsamples)
         sdf['npdf'] = sdf.apply(lambda x: '{}-{}-{}.pdf'.format(x.SCHOOL_ID,x.STANDARD, x.page),axis=1)
@@ -146,7 +146,10 @@ def processDistrict(opts):
 
         
 def main():
-    parser = argparse.ArgumentParser("Generate the QR Codes and setup the flow for Pdf generation.")
+    parser = argparse.ArgumentParser(
+        '''Generate test environment for checking pdf by sampling the 
+        generated pdf with a confidence level of 95% and error margin of +- 5%.
+        ''')
     parser.add_argument("--rundir", nargs='?', default=os.getcwd(), help="Create the tree in this dir.")
     parser.add_argument("--flowdir",required=True, help="Flow directory path for config files, etc.")
     parser.add_argument("--csvdir",required=True, help="csv folder to process.")
@@ -166,7 +169,7 @@ def main():
         print('Processing PDF({}) for testing: {} of {}'.format(csvf, i+1, csvl))
         opts.csv = csvf
         distname = os.path.basename(csvf)
-        opts.pdfdir = '{}/{}'.format(opts.rundir, os.path.splitext(distname)[0])
+        opts.pdfdir = '{}/pdfgen/{}'.format(opts.rundir, os.path.splitext(distname)[0])
         processDistrict(opts)
         
 main()

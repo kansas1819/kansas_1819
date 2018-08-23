@@ -312,7 +312,7 @@ def main():
     parser.add_argument("--flowdir",required=True, help="Flow directory path for config files, etc.")
     parser.add_argument("--csvdir",required=True, help="Dir containing csv files to process..")
     parser.add_argument("--encrypt",action='store_true', help="Encode encrypted QR codes.")
-    args = '--flowdir /home/sikshana/sas/flow --rundir sample --csvdir sample_csvs --encrypt'
+    #args = '--flowdir /home/sikshana/sas/flow --rundir sample --csvdir sample_csvs --encrypt'
     #opts = parser.parse_args(args.split())
     opts = parser.parse_args()
     if not os.path.isdir(opts.rundir):
