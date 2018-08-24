@@ -1,0 +1,103 @@
+#!/usr/bin/env bash
+PDFDIR="pdfgen"
+TSTDIR="test"
+RELDIR="release"
+PYTHON=`which python`
+COPYHASH=`~/sas/flow/bin/find_and_hash.py`
+COPIED="release"
+
+# make sure tiffsplit is installed
+TIFFSPLIT="tiffsplit"
+if ! command -v ${TIFFSPLIT} > /dev/null 2>&1;   then
+    echo "${TIFFSPLIT} which is part of the libtiff package"
+    echo "is not available. Please install the \"libtiff\" package."
+    exit 1
+fi
+
+# make sure convert from imagemagick is installed
+CONVERT="convert"
+if ! command -v ${CONVERT} > /dev/null 2>&1;   then
+    echo "${CONVERT} which is part of the ImageMagick package"
+    echo "is not available. Please install the \"ImageMagick\" package."
+    exit 1
+fi
+
+while getopts ":c:r:f:d" opt; do
+  case $opt in
+      r)
+	  RUN_DIR=${OPTARG}
+	  ;;
+      f)
+	  FLOW_DIR=${OPTARG}
+	  ;;
+      c)
+	  CSV_DIR=${OPTARG}
+	  ;;
+	  d)
+	  DATASCHEME=${OPTARG}
+	  ;;
+	
+      \?)
+	  echo "Invalid option: -$OPTARG" >&2
+	  exit 1
+	  ;;
+      :)
+	  echo "Option -$OPTARG requires an argument." >&2
+	  exit 1
+	  ;;
+  esac
+done
+
+# make sure the config directory exists
+if  [ ! -d "${CSV_DIR}/" ]; then
+    echo "Csv directory \"${CSV_DIR}\" does not exist."
+    exit 1
+fi
+
+# create the run directory
+if [ ! -d "$RUN_DIR" ] ; then
+    if ! mkdir -p "$RUN_DIR" ; then
+	echo  "can't create $RUN_DIR".
+	exit 1
+    fi
+    mkdir -p ${RUN_DIR}/${PDFDIR}
+else
+    echo "run directory ${RUN_DIR} exists"
+    exit 1
+fi
+
+# Setup the pdfgen environment
+CREATENV="${FLOW_DIR}/bin/pdfgensetup.py"
+OPTS="--rundir ${RUN_DIR}/${PDFDIR} --flowdir ${FLOW_DIR} --csvdir ${CSV_DIR} --encrypt" || exit 1
+${PYTHON} ${CREATENV} ${OPTS}
+if [ $? -ne 0 ]; then
+    exit 1
+fi
+
+# Make a link to the right Makefile and run the pdf generation flow
+if [ ! -f "${RUN_DIR}/${PDFDIR}/Makefile" ] ; then
+    ln -s ${FLOW_DIR}/pdf/Makefile.SUB ${RUN_DIR}/${PDFDIR}/Makefile
+fi
+
+(cd ${RUN_DIR}/${PDFDIR} && make -j4 -k) || exit 1
+
+# setup the test environment
+CREATENV="${FLOW_DIR}/bin/pdftest.py"
+OPTS="--rundir ${RUN_DIR} --flowdir ${FLOW_DIR} --csvdir ${CSV_DIR}" || exit 1
+${PYTHON} ${CREATENV} ${OPTS}
+
+# run the tests on samples
+# Make a link to the right Makefile and run the pdf generation flow
+if [ ! -f "${RUN_DIR}/${TSTDIR}/Makefile" ] ; then
+    ln -s ${FLOW_DIR}/pdf/Makefile.TEST ${RUN_DIR}/${TSTDIR}/Makefile
+fi
+
+(cd ${RUN_DIR}/${TSTDIR} && make -j4) || exit 1
+
+#running find_and_hash.py script to test the copying process and hashing
+if [ ! -d "$RUN_DIR/$COPIED" ] ; then
+	mkdir -p ${RUN_DIR}/${COPIED}
+fi
+
+OPTS="--dir ${RUN_DIR}/${PDFDIR} --pattern '^\d+-\w+.pdf' --outputdir ${RUN_DIR}/${COPIED} --datascheme ${DATASCHEME}"
+${PYTHON} ${COPYHASH} ${OPTS} > copy.log
