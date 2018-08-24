@@ -1,3 +1,0 @@
-/bin: contains the binaries
-/forms: the tex files
-/pdf: generation of pdfs. Makefiles and texfiles for pdf generation.

@@ -1,0 +1,14 @@
+* you should have a flow directory with processinput shell script.  rysnc the flow_0.2 directory from the server (sikshana@192.168.0.10:/data/kansas_1819/flow_0.2/
+
+* go to a directory where you want to set up the run directory
+
+* create a csv folder here containing the csv's for the districts you want to process
+
+* run processinput ~/sas/flow/bin/processinput -r run1 -c csv -f ~/sas/flow/ >logfilename.log 2>&1 
+
+			-r flag contains the name of the run directory you want the shell script to create within your current working directory
+			-c contains the path to the csv folder you created at step 3
+			-f contains the path to the updated flow directory. IT SHOULD BE CALLED flow
+			-d takes the integer value and creates the folders heirarchy within release folder according to the supplied value. for example d = 2 will generate district/cluster while 3 will generate district/block/cluster.
+ 
+* open up a new terminal window and run top and /or tail -f logfile_path to monitor the process.

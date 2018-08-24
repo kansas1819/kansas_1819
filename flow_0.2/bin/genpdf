@@ -3,7 +3,6 @@ PDFDIR="pdfgen"
 TSTDIR="test"
 RELDIR="release"
 PYTHON=`which python`
-COPYHASH=`~/sas/flow/bin/find_and_hash.py`
 COPIED="release"
 
 # make sure tiffsplit is installed
@@ -22,7 +21,7 @@ if ! command -v ${CONVERT} > /dev/null 2>&1;   then
     exit 1
 fi
 
-while getopts ":c:r:f:d" opt; do
+while getopts ":c:r:f:d:" opt; do
   case $opt in
       r)
 	  RUN_DIR=${OPTARG}
@@ -99,5 +98,6 @@ if [ ! -d "$RUN_DIR/$COPIED" ] ; then
 	mkdir -p ${RUN_DIR}/${COPIED}
 fi
 
-OPTS="--dir ${RUN_DIR}/${PDFDIR} --pattern '^\d+-\w+.pdf' --outputdir ${RUN_DIR}/${COPIED} --datascheme ${DATASCHEME}"
-${PYTHON} ${COPYHASH} ${OPTS} > copy.log
+COPYHASH="${FLOW_DIR}/bin/find_and_hash.py"
+OPTS="--dir ${RUN_DIR}/${PDFDIR} --pattern ^\d+-\w+.pdf --outputdir ${RUN_DIR}/${COPIED}/ --datascheme ${DATASCHEME}" || exit 1
+${PYTHON} ${COPYHASH} ${OPTS}

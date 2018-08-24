@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import os
 import hashlib
 import re
@@ -9,7 +10,7 @@ from multiprocessing import Pool
 #\w+.tif
 #no need to write r' in argument and no '' characters. 
 
-pd.set_option('display.width', 1000)
+#pd.set_option('display.width', 1000)
 
 def read_tifs(pattern, dir_path):
     
@@ -100,7 +101,7 @@ def main():
     parser.add_argument('--dir', required = True)
     parser.add_argument('--pattern', required = True)
     parser.add_argument('--outputdir', required = True, help = "it should end with a forward slash [/]")
-    parser.add_argument('--datascheme', required = True, help = "takes DISTRICT_NAME, BRC_NAME, CRC_NAME as inputs separated by a :", type = int)
+    parser.add_argument('--datascheme', required = True, type = int)
     
     opts = parser.parse_args()
     
@@ -109,14 +110,14 @@ def main():
     files_fp = create_hashes(files)
     
     df = to_df(files_fp, opts.outputdir)
-  
+    
     df['File_name'] = [re.search("\w+-\w+.pdf", x)[0] for x in df['File_Path']]
     
     df['output_dir'] = opts.outputdir
     
     df.to_csv(opts.outputdir + 'output.csv', index = False)
     
-    dfo = pd.read_csv('/win/Users/School/Documents/demo/Ajay/SAS/34Districts_Information/sch_dist_blk_crc.csv')
+    dfo = pd.read_csv('/home/sikshana/sas/sch_dist_blk_crc.csv')
     
     df = add_cols(df, dfo)
     

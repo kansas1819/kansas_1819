@@ -1,8 +1,0 @@
-config.ini:  initialization file used by the python programs
-Makefile: generates the pdf and softlinks are created from school folders to this file.
-Makefile.PDF: top level setup and pdf generation script. District Level
-Makefile.SUB: a heirarchical makefile to run corresponding stuff.
-Makefile.TEST: to run sdaps on the samples generated from pdf.
-README
-tex
-texput.log

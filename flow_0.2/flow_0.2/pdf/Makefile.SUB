@@ -1,9 +1,0 @@
-SUBDIRS:= $(shell ls -d */*/)
-
-default: all
-
-$(SUBDIRS)::
-	@echo `date`
-	$(MAKE) -C $@ $(MAKECMDGOALS) 
-
-all chk cleani pclean cleanpdf cleanchk: $(SUBDIRS)

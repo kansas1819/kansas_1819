@@ -1,2 +1,0 @@
-overlay.tex: tex file to overlay the title and signatures
-use "xelatex overlay.tex" to compile the file
