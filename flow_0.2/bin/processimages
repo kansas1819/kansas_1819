@@ -62,7 +62,7 @@ else
 fi
 
 # Setup the pdfgen environment
-CREATENV="${FLOW_DIR}/bin/pdfgensetup1.py"
+CREATENV="${FLOW_DIR}/bin/pdfgensetup.py"
 OPTS="--rundir ${RUN_DIR}/${PDFDIR} --flowdir ${FLOW_DIR} --csvdir ${CSV_DIR} --encrypt" || exit 1
 ${PYTHON} ${CREATENV} ${OPTS}
 if [ $? -ne 0 ]; then
