@@ -4,9 +4,9 @@
 \@STAMPtrue
 \@PAGEMARKtrue
 
-\setcounter{surveyidlshw}{5102}
-\setcounter{surveyidmshw}{57400}
-\def\surveyid{3761771502}
+\setcounter{surveyidlshw}{19018}
+\setcounter{surveyidmshw}{28138}
+\def\surveyid{1844070986}
 % We turn off draft mode if questionnaire IDs are not printed.
 \if@PrintQuestionnaireId
 \else

@@ -19,14 +19,13 @@ Questionnaire
 	3(Checkbox) 179.6  65.6   3.9   3.9 9
 0.3(Head) 
 0.3.1(Choice) c) L1: {1}
-	0(Checkbox)  41.3  79.9   3.9   3.9 \small {Kan}
-	1(Checkbox)  52.4  79.9   3.9   3.9 \small {Eng}
-	2(Checkbox)  63.2  79.9   3.9   3.9 \small {Urd}
-	3(Checkbox)  74.1  79.9   3.9   3.9 \small {Mar}
-	4(Checkbox)  85.6  79.9   3.9   3.9 \small {Tam}
-	5(Checkbox)  96.3  79.9   3.9   3.9 \small {Tel}
-	6(Checkbox) 106.2  79.9   3.9   3.9 \small {San}
-	7(Checkbox) 116.7  79.9   3.9   3.9 \small {Guj}
+	0(Checkbox)  51.8  79.9   3.9   3.9 \small {Kan}
+	1(Checkbox)  62.9  79.9   3.9   3.9 \small {Eng}
+	2(Checkbox)  73.7  79.9   3.9   3.9 \small {Urd}
+	3(Checkbox)  84.7  79.9   3.9   3.9 \small {Mar}
+	4(Checkbox)  96.2  79.9   3.9   3.9 \small {Tam}
+	5(Checkbox) 106.8  79.9   3.9   3.9 \small {Tel}
+	6(Checkbox) 116.8  79.9   3.9   3.9 \small {San}
 0.4(Head) 
 0.4.1(Choice) d) L2: {1}
 	0(Checkbox) 151.2  79.9   3.9   3.9 \small {Kan}
