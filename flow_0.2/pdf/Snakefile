@@ -1,0 +1,101 @@
+import os
+from pathlib import Path
+import re
+
+def tiff(folder):
+    pat = re.compile('.*\/errors')
+    tiff = []
+    for root, subdir, filenames in os.walk(folder):
+        for filename in filenames:
+            if filename.startswith('_a') and filename.endswith('.tif'):
+                if not pat.match(root):
+                    tiff.append(os.path.join(root,filename))
+    return(tiff)
+
+def tiffdirs(folder):
+    tiff = []
+    for root, subdir, filenames in os.walk(folder):
+        for filename in filenames:
+            if filename.startswith('img'):
+                tiff.append(root)
+    return(tiff)
+
+PYTHON = '/opt/anaconda3/bin/python'
+FLOWDIR= '/home/sikshana/sas/flow'
+PDFSETUP='{}/bin/pdfgensetup.py'.format(FLOWDIR)
+PDFTEST='{}/bin/pdftest.py'.format(FLOWDIR)
+RUN_DIR='.'
+PDFDIR='pdfgen'
+CSV_DIR='csv'
+
+
+rule all:
+    input: ".pdfrelease"
+        
+rule pdfgensetup:
+    input:
+    output:
+        ".pdfgensetup"
+    message:
+        'Setting up the Pdf Gen flow.'
+    shell:
+        '''{PYTHON} {PDFSETUP} --rundir {RUN_DIR}/{PDFDIR} --flowdir {FLOWDIR} --csvdir {CSV_DIR} --encrypt &&
+           (if [ ! -f {RUN_DIR}/{PDFDIR}/Makefile ] ; then
+               ln -s {FLOWDIR}/pdf/Makefile.SUB {RUN_DIR}/{PDFDIR}/Makefile
+           fi;
+           touch {output})
+        '''
+rule pdfgen:
+    input:
+        ".pdfgensetup"
+    output:
+        ".pdfgen"
+    message:
+        'Generating PDF.'
+    params:
+    shell:
+        '''
+        (cd {RUN_DIR}/{PDFDIR} && make -j4 -k);
+        touch {output}
+        '''
+rule pdftestsetup:
+    input:
+        ".pdfgen"
+    output:
+        ".pdfsetuptest"
+    message:
+        'Setup the test environment.'
+    params:
+    shell:
+        '''
+        {PYTHON} {PDFTEST} --rundir {RUN_DIR} --flowdir {FLOWDIR} --csvdir {CSV_DIR};
+        touch {output}
+        '''
+
+rule pdftest:
+    input:
+        ".pdfsetuptest"
+    output:
+        ".pdftest"
+    message:
+        'Run the tests'
+    params:
+    shell:
+        '''
+        if [ ! -f {RUN_DIR}/test/Makefile ] ; then
+          ln -s {FLOWDIR}/pdf/Makefile.TEST {RUN_DIR}/test/Makefile
+        fi;
+        (cd {RUN_DIR}/test && make -j4);
+        touch {output}
+        '''
+rule pdfrelease:
+    input:
+        ".pdftest"
+    output:
+        ".pdfrelease"
+    message:
+        "Making the release."
+    shell:
+        '''
+        touch {output}
+        '''
