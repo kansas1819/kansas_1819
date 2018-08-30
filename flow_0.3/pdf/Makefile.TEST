@@ -1,0 +1,46 @@
+SDAPSDB  :=db
+SDAPS    :=sdaps
+FLOW     := /home/sikshana/sas/flow
+VERIFY   := $(FLOW)/bin/csvverify.py
+GS       :=gs
+GSOPTS   := -q -dNOPAUSE -dBATCH -r300 -sDEVICE=tiffg4 -sPAPERSIZE=a4
+TOPDIR   :=.
+PDF      := $(wildcard $(TOPDIR)/*/*/*stamp.pdf)
+DIRS     := $(dir $(PDF))
+TIFF     := $(patsubst %.pdf, %.tif, $(PDF))
+DB       := $(addsuffix .db, $(DIRS))
+REC      := $(addsuffix .rec, $(DIRS))
+CSV      := $(addsuffix .csv, $(DIRS))
+VER      := $(addsuffix .ver, $(DIRS))
+PDFTK    :=pdftk
+default: $(VER)
+
+# define dependencies for individual
+# survey id runs.
+define make-tiff-targets
+target=$(addsuffix .db, $(dir $1))
+prereq:=$1
+$${target}: $${prereq}
+	$(SDAPS) $(dir $1)db add $$<
+endef
+
+$(foreach tif,$(TIFF),$(eval $(call make-tiff-targets,$(tif))))
+
+%.tif: %.pdf
+	$(eval ext = $(shell dirname $<)) 
+	$(PDFTK) $(ext)/*.pdf cat output $(ext)/tmp.pdf
+	mv $(ext)/tmp.pdf $<
+	$(GS) $(GSOPTS) -sOutputFile=$@ $<
+
+%.rec: %.db
+	$(SDAPS) $(dir $@)db recognize
+	@touch $@
+
+%.csv: %.rec
+	$(SDAPS) $(dir $@)db csv export
+	@touch $@
+
+%.ver: %.csv
+	$(VERIFY) --rundir $(dir $@)
+	touch $@
+.SECONDARY:

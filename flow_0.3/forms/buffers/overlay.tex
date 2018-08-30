@@ -1,0 +1,37 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{fontspec}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{datatool}
+\usepackage{tikz}
+\usepackage{pdfpages}
+\usetikzlibrary{calc, positioning, fit}
+\newfontfamily{\ka}[]{Kedage}
+\geometry{verbose,
+          bmargin=0cm,
+          lmargin=0cm,
+          rmargin=0cm,
+          tmargin=0cm}
+\begin{document}
+\tikzset{
+  signature/.pic={
+    \node[draw, rectangle, rounded corners, minimum width=7.8cm,
+      anchor=west, minimum height=1cm] (sig) {};
+    \node[right=0cm of sig.west] (t) {Teacher Signature:};
+    \draw[dotted, thick] (t.south east) -- ++(4cm,0);
+  }
+}
+
+\includepdf[pagecommand={\begin{tikzpicture}[remember picture, overlay]
+      %\node[draw, anchor=center, minimum width=12cm, minimum height=3cm] at ($(current page.north) + (0,-1.5cm)$)  {};
+      \node[fill=white, anchor=center, minimum width=9.1cm, outer sep=0pt, inner sep=0pt] at %
+      ($(current page.north) + (0,-1.5cm)$)  {\huge {\ka ರಾಜ್ಯ ಕಲಿಕಾ ಸಾಧನಾ ಸಮೀಕ್ಷೆ} {{\Large (Buffer Sheet 1)}}}; %
+      \pic[local bounding box=B] at ($(current page.south) + (-6cm,1.5cm)$) {signature}; %
+      %\node at ($(current page.north east) + (-2cm,-2cm)$) {\includegraphics{buf1.png};%
+    \end{tikzpicture}}] {buffer-45-1.pdf}
+\end{document}
+

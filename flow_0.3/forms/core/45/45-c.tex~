@@ -1,0 +1,124 @@
+\documentclass[12pt,
+  english,
+  oneside,
+  pagemark,
+  stamp,headheight=0cm]{sdaps}
+\usepackage[utf8]{inputenc}
+\usepackage{fontspec}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\newfontfamily{\kannada}[]{Kedage}
+\usepackage{multicol}
+\title{\-\vspace{1ex}\Large \textbf {\phantom {State Assessment Survey}}}
+\setlength{\parindent}{0pt}
+\definecolor{sectionbgcolor}{gray}{0.95}
+\begin{document}
+\setlength{\checkboxsize}{3.5mm}
+\begin{questionnaire}[noinfo]
+  \-\\[2.3cm]
+  \begin{minipage}{0.5\textwidth}
+    \begin{choicegroup}{}
+      \groupaddchoice{\phantom{\texttt 85U}}
+      \groupaddchoice{\phantom{\texttt 83U}}
+      \groupaddchoice{\phantom{\texttt 92U}}
+      \groupaddchoice{\phantom{\texttt 91U}}
+      \choiceline{Question Paper Set:}
+    \end{choicegroup}
+  \end{minipage}
+  \hfill
+  \begin{minipage}{0.15\textwidth}
+    \begin{choicegroup}{}
+        \groupaddchoice{}
+        \choiceline{Absent:}
+    \end{choicegroup}
+  \end{minipage}
+  \hrule
+  \hfill\\{\kannada ಕೆಳಗಿನ ಚೌಕದಲ್ಲಿ ಬಾಲ್ ಪೆನ್ನನ್ನು ಬಳಿಸಿ ಸರಿಯಾದ ಉತ್ತರವನ್ನು}{\large \checkmark} {\kannada ಹಾಕಿ ಗುರುತಿಸಿ.}
+  \enspace{\kannada ಉದಾಹರಣೆ}/Example:\enspace\makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{0.1em}$\checkmark$}
+  \hfill\\{Fill the right answer box with a} {\large \checkmark} using a ball point pen.\\\hrule
+  \hspace{0.151cm}
+    \begin{minipage}[t]{0.25\textwidth}
+      \begin{choicegroup}{}
+        \groupaddchoice{A}
+        \groupaddchoice{B}
+        \groupaddchoice{C}
+        \groupaddchoice{D}
+        \choiceline{1.}
+        \choiceline{2.}
+        \choiceline{3.}
+        \choiceline{4.}
+        \choiceline{5.}\\
+        \choiceline{6.}
+        \choiceline{7.}
+        \choiceline{8.}
+        \choiceline{9.}
+        \choiceline{10.}\\
+        \choiceline{11.}
+        \choiceline{12.}
+        \choiceline{13.}
+        \choiceline{14.}
+        \choiceline{15.}\\
+        \choiceline{16.}
+        \choiceline{17.}
+        \choiceline{18.}
+        \choiceline{19.}
+        \choiceline{20.}\\
+        \choiceline{21.}
+        \choiceline{22.}
+        \choiceline{23.}
+        \choiceline{24.}
+        \choiceline{25.}\\
+        \choiceline{26.}
+        \choiceline{27.}
+        \choiceline{28.}
+        \choiceline{29.}
+        \choiceline{30.}
+      \end{choicegroup}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.25\textwidth}
+      \begin{choicegroup}{}
+        \groupaddchoice{A}
+        \groupaddchoice{B}
+        \groupaddchoice{C}
+        \groupaddchoice{D}
+        \choiceline{31.}
+        \choiceline{32.}
+        \choiceline{33.}
+        \choiceline{34.}
+        \choiceline{35.}\\
+        \choiceline{36.}
+        \choiceline{37.}
+        \choiceline{38.}
+        \choiceline{39.}
+        \choiceline{40.}\\
+        \choiceline{41.}
+        \choiceline{42.}
+        \choiceline{43.}
+        \choiceline{44.}
+        \choiceline{45.}\\
+        \choiceline{46.}
+        \choiceline{47.}
+        \choiceline{48.}
+        \choiceline{49.}
+        \choiceline{50.}\\
+        \choiceline{51.}
+        \choiceline{52.}
+        \choiceline{53.}
+        \choiceline{54.}
+        \choiceline{55.}\\
+        \choiceline{56.}
+        \choiceline{57.}
+        \choiceline{58.}
+        \choiceline{59.}
+        \choiceline{60.}
+      \end{choicegroup}
+    \end{minipage}
+    \hspace{5.501cm}
+    \begin{minipage}[t]{0.25\textwidth}
+      {\phantom {x}}
+    \end{minipage}
+  \end{questionnaire}
+\end{document}
+  

@@ -1,0 +1,122 @@
+import os
+from pathlib import Path
+import re
+
+def tiff(folder):
+    pat = re.compile('.*\/errors')
+    tiff = []
+    for root, subdir, filenames in os.walk(folder):
+        for filename in filenames:
+            if filename.startswith('_a') and filename.endswith('.tif'):
+                if not pat.match(root):
+                    tiff.append(os.path.join(root,filename))
+    return(tiff)
+
+def csvdirs(folder):
+    csvdirs = []
+    for root, subdir, filenames in os.walk(folder):
+        csvdirs.extend(['{}'.format(os.path.splitext(x)[0]) for x in filenames])
+    print(csvdirs)
+    return(csvdirs)
+
+PYTHON = '/opt/anaconda3/bin/python'
+FLOWDIR= '/home/sikshana/sas/flow'
+PDFSETUP='{}/bin/pdfgensetup2.py'.format(FLOWDIR)
+PDFTEST='{}/bin/pdftest1.py'.format(FLOWDIR)
+RUN_DIR='.'
+COPIED="released"
+PDFDIR='pdfgen'
+CSV_DIR='csv'
+COPYHASH="{}/bin/find_and_hash.py".format(FLOWDIR)
+cOPTS="--dir {}/{} --pattern '^\d+-\w+.pdf' --outputdir {}/{}/ --datascheme 3".format(
+RUN_DIR, PDFDIR, RUN_DIR, COPIED)
+CSVDIRS = csvdirs(CSV_DIR)
+
+ruleorder: pdfgensetup > pdfgen > pdftestsetup > pdftest > pdfrelease
+    
+rule all:
+    input: expand('release/{dist}/.pdfrel', dist=CSVDIRS)
+        
+rule pdfgensetup:
+    input:
+        'csv/{dist}.csv'
+    output:
+        'pdfgen/{dist}/.pdfs',
+
+    message:
+        'Setting up the Pdf Gen flow for {wildcards.dist}.'
+    benchmark:
+        'benchmarks/pdfs-{dist}.tsv'
+    shell:
+        '''{PYTHON} {PDFSETUP} --rundir {RUN_DIR}/{PDFDIR}/{wildcards.dist} --flowdir {FLOWDIR} --csv {input} --encrypt &&
+           (if [ ! -f {RUN_DIR}/{PDFDIR}/{wildcards.dist}/Makefile ] ; then
+               ln -s {FLOWDIR}/pdf/Makefile.SUB {RUN_DIR}/{PDFDIR}/{wildcards.dist}/Makefile
+           fi;)
+           touch {output}
+        '''
+
+rule pdfgen:
+    input:
+        'pdfgen/{dist}/.pdfs'
+    output:
+        'pdfgen/{dist}/.pdf'
+    message:
+        'Generating PDF for {wildcards.dist}.'
+    benchmark:
+        'benchmarks/pdf-{dist}.tsv'
+    shell:
+        '''
+        (cd {RUN_DIR}/{PDFDIR}/{wildcards.dist} && make -j4 -k > make.log 2>&1)
+        touch {output}
+        '''
+        
+rule pdftestsetup:
+    input:
+        'pdfgen/{dist}/.pdf',
+        csv='csv/{dist}.csv'
+    output:
+        'test/{dist}/.stest'
+    message:
+        'Setup the test environment for {wildcards.dist}.'
+    benchmark:
+        'benchmarks/tests-{dist}.tsv'
+    shell:
+        '''
+        {PYTHON} {PDFTEST} --rundir {RUN_DIR} --flowdir {FLOWDIR} --csv {input.csv};
+        touch {output}
+        '''
+
+rule pdftest:
+    input:
+        'test/{dist}/.stest'
+    output:
+        'test/{dist}/.test'
+    message:
+        'Run the SDAPS tests for {wildcards.dist}.'
+    benchmark:
+        'benchmarks/test-{dist}.tsv'
+    shell:
+        '''
+        if [ ! -f {RUN_DIR}/test/Makefile ] ; then
+          ln -s {FLOWDIR}/pdf/Makefile.TEST {RUN_DIR}/test/{wildcards.dist}/Makefile
+        fi;
+        (cd {RUN_DIR}/test/{wildcards.dist} && make -j4 > make.log 2>&1);
+        touch {output}
+        '''
+
+rule pdfrelease:
+    input:
+        'test/{dist}/.test'
+    output:
+        'release/{dist}/.pdfrel'
+    message:
+        'Making the release for {wildcards.dist}.'
+    benchmark:
+        'benchmarks/rel-{dist}.tsv'
+    shell:
+        '''
+        mkdir {RUN_DIR}/{COPIED}
+
+	{PYTHON} {COPYHASH} {cOPTS}
+        touch {output}
+        '''
