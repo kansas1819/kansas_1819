@@ -1,0 +1,528 @@
+------------------------------------------------------------------------------
+- SDAPS -- setup_tex
+------------------------------------------------------------------------------
+Running xelatex now twice to generate the questionnaire.
+Running xelatex now twice to generate the questionnaire.
+\-\vspace {1ex}\Large \textbf {\phantom {State Assessment Survey}}
+Questionnaire
+0.1(Head) 
+0.1.1(Choice) a) Question Paper Set: {1}
+	0(Checkbox)  69.2  67.9   3.9   3.9 1
+	1(Checkbox)  78.6  67.9   3.9   3.9 2
+	2(Checkbox)  88.1  67.9   3.9   3.9 3
+	3(Checkbox)  97.5  67.9   3.9   3.9 4
+0.2(Head) 
+0.2.1(Choice) b) Class: {1}
+	0(Checkbox) 139.4  67.9   3.9   3.9 6
+	1(Checkbox) 148.9  67.9   3.9   3.9 7
+	2(Checkbox) 158.3  67.9   3.9   3.9 8
+	3(Checkbox) 167.8  67.9   3.9   3.9 9
+0.3(Head) 
+0.3.1(Choice) kannada {1}
+	0(Checkbox)  50.5  82.8   3.9   3.9 \small {L1}
+	1(Checkbox)  59.9  82.8   3.9   3.9 \small {L2}
+	2(Checkbox)  69.4  82.8   3.9   3.9 \small {L3}
+0.3.2(Choice) english {1}
+	0(Checkbox)  50.5  88.0   3.9   3.9 \small {L1}
+	1(Checkbox)  59.9  88.0   3.9   3.9 \small {L2}
+	2(Checkbox)  69.4  88.0   3.9   3.9 \small {L3}
+0.3.3(Choice) hindi {1}
+	0(Checkbox)  50.5  93.1   3.9   3.9 \small {L1}
+	1(Checkbox)  59.9  93.1   3.9   3.9 \small {L2}
+	2(Checkbox)  69.4  93.1   3.9   3.9 \small {L3}
+0.3.4(Choice) urdu {1}
+	0(Checkbox)  50.5  98.2   3.9   3.9 \small {L1}
+	1(Checkbox)  59.9  98.2   3.9   3.9 \small {L2}
+	2(Checkbox)  69.4  98.2   3.9   3.9 \small {L3}
+0.4(Head) 
+0.4.1(Choice) marathi {1}
+	0(Checkbox) 105.6  82.8   3.9   3.9 \small {L1}
+	1(Checkbox) 115.1  82.8   3.9   3.9 \small {L2}
+	2(Checkbox) 124.5  82.8   3.9   3.9 \small {L3}
+0.4.2(Choice) tamil {1}
+	0(Checkbox) 105.6  88.0   3.9   3.9 \small {L1}
+	1(Checkbox) 115.1  88.0   3.9   3.9 \small {L2}
+	2(Checkbox) 124.5  88.0   3.9   3.9 \small {L3}
+0.4.3(Choice) telugu {1}
+	0(Checkbox) 105.6  93.1   3.9   3.9 \small {L1}
+	1(Checkbox) 115.1  93.1   3.9   3.9 \small {L2}
+	2(Checkbox) 124.5  93.1   3.9   3.9 \small {L3}
+0.4.4(Choice) malayalam {1}
+	0(Checkbox) 105.6  98.2   3.9   3.9 \small {L1}
+	1(Checkbox) 115.1  98.2   3.9   3.9 \small {L2}
+	2(Checkbox) 124.5  98.2   3.9   3.9 \small {L3}
+0.5(Head) 
+0.5.1(Choice) arabic {1}
+	0(Checkbox) 160.7  80.3   3.9   3.9 \small {L1}
+	1(Checkbox) 170.2  80.3   3.9   3.9 \small {L2}
+	2(Checkbox) 179.6  80.3   3.9   3.9 \small {L3}
+0.5.2(Choice) gujrathi {1}
+	0(Checkbox) 160.7  85.4   3.9   3.9 \small {L1}
+	1(Checkbox) 170.2  85.4   3.9   3.9 \small {L2}
+	2(Checkbox) 179.6  85.4   3.9   3.9 \small {L3}
+0.5.3(Choice) sanskrit {1}
+	0(Checkbox) 160.7  90.5   3.9   3.9 \small {L1}
+	1(Checkbox) 170.2  90.5   3.9   3.9 \small {L2}
+	2(Checkbox) 179.6  90.5   3.9   3.9 \small {L3}
+0.5.4(Choice) konkani {1}
+	0(Checkbox) 160.7  95.7   3.9   3.9 \small {L1}
+	1(Checkbox) 170.2  95.7   3.9   3.9 \small {L2}
+	2(Checkbox) 179.6  95.7   3.9   3.9 \small {L3}
+0.5.5(Choice) tulu {1}
+	0(Checkbox) 160.7 100.8   3.9   3.9 \small {L1}
+	1(Checkbox) 170.2 100.8   3.9   3.9 \small {L2}
+	2(Checkbox) 179.6 100.8   3.9   3.9 \small {L3}
+0.6(Head) 
+0.6.1(Choice) 1. {1}
+	0(Checkbox)  29.6  91.9   3.9   3.9 A
+	1(Checkbox)  39.0  91.9   3.9   3.9 B
+	2(Checkbox)  48.5  91.9   3.9   3.9 C
+	3(Checkbox)  57.9  91.9   3.9   3.9 D
+0.6.2(Choice) 2. {1}
+	0(Checkbox)  29.6  97.0   3.9   3.9 A
+	1(Checkbox)  39.0  97.0   3.9   3.9 B
+	2(Checkbox)  48.5  97.0   3.9   3.9 C
+	3(Checkbox)  57.9  97.0   3.9   3.9 D
+0.6.3(Choice) 3. {1}
+	0(Checkbox)  29.6 102.1   3.9   3.9 A
+	1(Checkbox)  39.0 102.1   3.9   3.9 B
+	2(Checkbox)  48.5 102.1   3.9   3.9 C
+	3(Checkbox)  57.9 102.1   3.9   3.9 D
+0.6.4(Choice) 4. {1}
+	0(Checkbox)  29.6 107.3   3.9   3.9 A
+	1(Checkbox)  39.0 107.3   3.9   3.9 B
+	2(Checkbox)  48.5 107.3   3.9   3.9 C
+	3(Checkbox)  57.9 107.3   3.9   3.9 D
+0.6.5(Choice) 5. {1}
+	0(Checkbox)  29.6 112.4   3.9   3.9 A
+	1(Checkbox)  39.0 112.4   3.9   3.9 B
+	2(Checkbox)  48.5 112.4   3.9   3.9 C
+	3(Checkbox)  57.9 112.4   3.9   3.9 D
+0.6.6(Choice) 6. {1}
+	0(Checkbox)  29.6 122.6   3.9   3.9 A
+	1(Checkbox)  39.0 122.6   3.9   3.9 B
+	2(Checkbox)  48.5 122.6   3.9   3.9 C
+	3(Checkbox)  57.9 122.6   3.9   3.9 D
+0.6.7(Choice) 7. {1}
+	0(Checkbox)  29.6 127.8   3.9   3.9 A
+	1(Checkbox)  39.0 127.8   3.9   3.9 B
+	2(Checkbox)  48.5 127.8   3.9   3.9 C
+	3(Checkbox)  57.9 127.8   3.9   3.9 D
+0.6.8(Choice) 8. {1}
+	0(Checkbox)  29.6 132.9   3.9   3.9 A
+	1(Checkbox)  39.0 132.9   3.9   3.9 B
+	2(Checkbox)  48.5 132.9   3.9   3.9 C
+	3(Checkbox)  57.9 132.9   3.9   3.9 D
+0.6.9(Choice) 9. {1}
+	0(Checkbox)  29.6 138.0   3.9   3.9 A
+	1(Checkbox)  39.0 138.0   3.9   3.9 B
+	2(Checkbox)  48.5 138.0   3.9   3.9 C
+	3(Checkbox)  57.9 138.0   3.9   3.9 D
+0.6.10(Choice) 10. {1}
+	0(Checkbox)  29.6 143.2   3.9   3.9 A
+	1(Checkbox)  39.0 143.2   3.9   3.9 B
+	2(Checkbox)  48.5 143.2   3.9   3.9 C
+	3(Checkbox)  57.9 143.2   3.9   3.9 D
+0.6.11(Choice) 11. {1}
+	0(Checkbox)  29.6 153.4   3.9   3.9 A
+	1(Checkbox)  39.0 153.4   3.9   3.9 B
+	2(Checkbox)  48.5 153.4   3.9   3.9 C
+	3(Checkbox)  57.9 153.4   3.9   3.9 D
+0.6.12(Choice) 12. {1}
+	0(Checkbox)  29.6 158.6   3.9   3.9 A
+	1(Checkbox)  39.0 158.6   3.9   3.9 B
+	2(Checkbox)  48.5 158.6   3.9   3.9 C
+	3(Checkbox)  57.9 158.6   3.9   3.9 D
+0.6.13(Choice) 13. {1}
+	0(Checkbox)  29.6 163.7   3.9   3.9 A
+	1(Checkbox)  39.0 163.7   3.9   3.9 B
+	2(Checkbox)  48.5 163.7   3.9   3.9 C
+	3(Checkbox)  57.9 163.7   3.9   3.9 D
+0.6.14(Choice) 14. {1}
+	0(Checkbox)  29.6 168.8   3.9   3.9 A
+	1(Checkbox)  39.0 168.8   3.9   3.9 B
+	2(Checkbox)  48.5 168.8   3.9   3.9 C
+	3(Checkbox)  57.9 168.8   3.9   3.9 D
+0.6.15(Choice) 15. {1}
+	0(Checkbox)  29.6 174.0   3.9   3.9 A
+	1(Checkbox)  39.0 174.0   3.9   3.9 B
+	2(Checkbox)  48.5 174.0   3.9   3.9 C
+	3(Checkbox)  57.9 174.0   3.9   3.9 D
+0.6.16(Choice) 16. {1}
+	0(Checkbox)  29.6 184.2   3.9   3.9 A
+	1(Checkbox)  39.0 184.2   3.9   3.9 B
+	2(Checkbox)  48.5 184.2   3.9   3.9 C
+	3(Checkbox)  57.9 184.2   3.9   3.9 D
+0.6.17(Choice) 17. {1}
+	0(Checkbox)  29.6 189.4   3.9   3.9 A
+	1(Checkbox)  39.0 189.4   3.9   3.9 B
+	2(Checkbox)  48.5 189.4   3.9   3.9 C
+	3(Checkbox)  57.9 189.4   3.9   3.9 D
+0.6.18(Choice) 18. {1}
+	0(Checkbox)  29.6 194.5   3.9   3.9 A
+	1(Checkbox)  39.0 194.5   3.9   3.9 B
+	2(Checkbox)  48.5 194.5   3.9   3.9 C
+	3(Checkbox)  57.9 194.5   3.9   3.9 D
+0.6.19(Choice) 19. {1}
+	0(Checkbox)  29.6 199.6   3.9   3.9 A
+	1(Checkbox)  39.0 199.6   3.9   3.9 B
+	2(Checkbox)  48.5 199.6   3.9   3.9 C
+	3(Checkbox)  57.9 199.6   3.9   3.9 D
+0.6.20(Choice) 20. {1}
+	0(Checkbox)  29.6 204.8   3.9   3.9 A
+	1(Checkbox)  39.0 204.8   3.9   3.9 B
+	2(Checkbox)  48.5 204.8   3.9   3.9 C
+	3(Checkbox)  57.9 204.8   3.9   3.9 D
+0.6.21(Choice) 21. {1}
+	0(Checkbox)  29.6 215.0   3.9   3.9 A
+	1(Checkbox)  39.0 215.0   3.9   3.9 B
+	2(Checkbox)  48.5 215.0   3.9   3.9 C
+	3(Checkbox)  57.9 215.0   3.9   3.9 D
+0.6.22(Choice) 22. {1}
+	0(Checkbox)  29.6 220.1   3.9   3.9 A
+	1(Checkbox)  39.0 220.1   3.9   3.9 B
+	2(Checkbox)  48.5 220.1   3.9   3.9 C
+	3(Checkbox)  57.9 220.1   3.9   3.9 D
+0.6.23(Choice) 23. {1}
+	0(Checkbox)  29.6 225.3   3.9   3.9 A
+	1(Checkbox)  39.0 225.3   3.9   3.9 B
+	2(Checkbox)  48.5 225.3   3.9   3.9 C
+	3(Checkbox)  57.9 225.3   3.9   3.9 D
+0.6.24(Choice) 24. {1}
+	0(Checkbox)  29.6 230.4   3.9   3.9 A
+	1(Checkbox)  39.0 230.4   3.9   3.9 B
+	2(Checkbox)  48.5 230.4   3.9   3.9 C
+	3(Checkbox)  57.9 230.4   3.9   3.9 D
+0.6.25(Choice) 25. {1}
+	0(Checkbox)  29.6 235.5   3.9   3.9 A
+	1(Checkbox)  39.0 235.5   3.9   3.9 B
+	2(Checkbox)  48.5 235.5   3.9   3.9 C
+	3(Checkbox)  57.9 235.5   3.9   3.9 D
+0.6.26(Choice) 26. {1}
+	0(Checkbox)  29.6 245.8   3.9   3.9 A
+	1(Checkbox)  39.0 245.8   3.9   3.9 B
+	2(Checkbox)  48.5 245.8   3.9   3.9 C
+	3(Checkbox)  57.9 245.8   3.9   3.9 D
+0.6.27(Choice) 27. {1}
+	0(Checkbox)  29.6 250.9   3.9   3.9 A
+	1(Checkbox)  39.0 250.9   3.9   3.9 B
+	2(Checkbox)  48.5 250.9   3.9   3.9 C
+	3(Checkbox)  57.9 250.9   3.9   3.9 D
+0.6.28(Choice) 28. {1}
+	0(Checkbox)  29.6 256.1   3.9   3.9 A
+	1(Checkbox)  39.0 256.1   3.9   3.9 B
+	2(Checkbox)  48.5 256.1   3.9   3.9 C
+	3(Checkbox)  57.9 256.1   3.9   3.9 D
+0.6.29(Choice) 29. {1}
+	0(Checkbox)  29.6 261.2   3.9   3.9 A
+	1(Checkbox)  39.0 261.2   3.9   3.9 B
+	2(Checkbox)  48.5 261.2   3.9   3.9 C
+	3(Checkbox)  57.9 261.2   3.9   3.9 D
+0.6.30(Choice) 30. {1}
+	0(Checkbox)  29.6 266.3   3.9   3.9 A
+	1(Checkbox)  39.0 266.3   3.9   3.9 B
+	2(Checkbox)  48.5 266.3   3.9   3.9 C
+	3(Checkbox)  57.9 266.3   3.9   3.9 D
+0.7(Head) 
+0.7.1(Choice) 31. {1}
+	0(Checkbox)  92.4  91.9   3.9   3.9 A
+	1(Checkbox) 101.8  91.9   3.9   3.9 B
+	2(Checkbox) 111.3  91.9   3.9   3.9 C
+	3(Checkbox) 120.7  91.9   3.9   3.9 D
+0.7.2(Choice) 32. {1}
+	0(Checkbox)  92.4  97.0   3.9   3.9 A
+	1(Checkbox) 101.8  97.0   3.9   3.9 B
+	2(Checkbox) 111.3  97.0   3.9   3.9 C
+	3(Checkbox) 120.7  97.0   3.9   3.9 D
+0.7.3(Choice) 33. {1}
+	0(Checkbox)  92.4 102.1   3.9   3.9 A
+	1(Checkbox) 101.8 102.1   3.9   3.9 B
+	2(Checkbox) 111.3 102.1   3.9   3.9 C
+	3(Checkbox) 120.7 102.1   3.9   3.9 D
+0.7.4(Choice) 34. {1}
+	0(Checkbox)  92.4 107.3   3.9   3.9 A
+	1(Checkbox) 101.8 107.3   3.9   3.9 B
+	2(Checkbox) 111.3 107.3   3.9   3.9 C
+	3(Checkbox) 120.7 107.3   3.9   3.9 D
+0.7.5(Choice) 35. {1}
+	0(Checkbox)  92.4 112.4   3.9   3.9 A
+	1(Checkbox) 101.8 112.4   3.9   3.9 B
+	2(Checkbox) 111.3 112.4   3.9   3.9 C
+	3(Checkbox) 120.7 112.4   3.9   3.9 D
+0.7.6(Choice) 36. {1}
+	0(Checkbox)  92.4 122.6   3.9   3.9 A
+	1(Checkbox) 101.8 122.6   3.9   3.9 B
+	2(Checkbox) 111.3 122.6   3.9   3.9 C
+	3(Checkbox) 120.7 122.6   3.9   3.9 D
+0.7.7(Choice) 37. {1}
+	0(Checkbox)  92.4 127.8   3.9   3.9 A
+	1(Checkbox) 101.8 127.8   3.9   3.9 B
+	2(Checkbox) 111.3 127.8   3.9   3.9 C
+	3(Checkbox) 120.7 127.8   3.9   3.9 D
+0.7.8(Choice) 38. {1}
+	0(Checkbox)  92.4 132.9   3.9   3.9 A
+	1(Checkbox) 101.8 132.9   3.9   3.9 B
+	2(Checkbox) 111.3 132.9   3.9   3.9 C
+	3(Checkbox) 120.7 132.9   3.9   3.9 D
+0.7.9(Choice) 39. {1}
+	0(Checkbox)  92.4 138.0   3.9   3.9 A
+	1(Checkbox) 101.8 138.0   3.9   3.9 B
+	2(Checkbox) 111.3 138.0   3.9   3.9 C
+	3(Checkbox) 120.7 138.0   3.9   3.9 D
+0.7.10(Choice) 40. {1}
+	0(Checkbox)  92.4 143.2   3.9   3.9 A
+	1(Checkbox) 101.8 143.2   3.9   3.9 B
+	2(Checkbox) 111.3 143.2   3.9   3.9 C
+	3(Checkbox) 120.7 143.2   3.9   3.9 D
+0.7.11(Choice) 41. {1}
+	0(Checkbox)  92.4 153.4   3.9   3.9 A
+	1(Checkbox) 101.8 153.4   3.9   3.9 B
+	2(Checkbox) 111.3 153.4   3.9   3.9 C
+	3(Checkbox) 120.7 153.4   3.9   3.9 D
+0.7.12(Choice) 42. {1}
+	0(Checkbox)  92.4 158.6   3.9   3.9 A
+	1(Checkbox) 101.8 158.6   3.9   3.9 B
+	2(Checkbox) 111.3 158.6   3.9   3.9 C
+	3(Checkbox) 120.7 158.6   3.9   3.9 D
+0.7.13(Choice) 43. {1}
+	0(Checkbox)  92.4 163.7   3.9   3.9 A
+	1(Checkbox) 101.8 163.7   3.9   3.9 B
+	2(Checkbox) 111.3 163.7   3.9   3.9 C
+	3(Checkbox) 120.7 163.7   3.9   3.9 D
+0.7.14(Choice) 44. {1}
+	0(Checkbox)  92.4 168.8   3.9   3.9 A
+	1(Checkbox) 101.8 168.8   3.9   3.9 B
+	2(Checkbox) 111.3 168.8   3.9   3.9 C
+	3(Checkbox) 120.7 168.8   3.9   3.9 D
+0.7.15(Choice) 45. {1}
+	0(Checkbox)  92.4 174.0   3.9   3.9 A
+	1(Checkbox) 101.8 174.0   3.9   3.9 B
+	2(Checkbox) 111.3 174.0   3.9   3.9 C
+	3(Checkbox) 120.7 174.0   3.9   3.9 D
+0.7.16(Choice) 46. {1}
+	0(Checkbox)  92.4 184.2   3.9   3.9 A
+	1(Checkbox) 101.8 184.2   3.9   3.9 B
+	2(Checkbox) 111.3 184.2   3.9   3.9 C
+	3(Checkbox) 120.7 184.2   3.9   3.9 D
+0.7.17(Choice) 47. {1}
+	0(Checkbox)  92.4 189.4   3.9   3.9 A
+	1(Checkbox) 101.8 189.4   3.9   3.9 B
+	2(Checkbox) 111.3 189.4   3.9   3.9 C
+	3(Checkbox) 120.7 189.4   3.9   3.9 D
+0.7.18(Choice) 48. {1}
+	0(Checkbox)  92.4 194.5   3.9   3.9 A
+	1(Checkbox) 101.8 194.5   3.9   3.9 B
+	2(Checkbox) 111.3 194.5   3.9   3.9 C
+	3(Checkbox) 120.7 194.5   3.9   3.9 D
+0.7.19(Choice) 49. {1}
+	0(Checkbox)  92.4 199.6   3.9   3.9 A
+	1(Checkbox) 101.8 199.6   3.9   3.9 B
+	2(Checkbox) 111.3 199.6   3.9   3.9 C
+	3(Checkbox) 120.7 199.6   3.9   3.9 D
+0.7.20(Choice) 50. {1}
+	0(Checkbox)  92.4 204.8   3.9   3.9 A
+	1(Checkbox) 101.8 204.8   3.9   3.9 B
+	2(Checkbox) 111.3 204.8   3.9   3.9 C
+	3(Checkbox) 120.7 204.8   3.9   3.9 D
+0.7.21(Choice) 51. {1}
+	0(Checkbox)  92.4 215.0   3.9   3.9 A
+	1(Checkbox) 101.8 215.0   3.9   3.9 B
+	2(Checkbox) 111.3 215.0   3.9   3.9 C
+	3(Checkbox) 120.7 215.0   3.9   3.9 D
+0.7.22(Choice) 52. {1}
+	0(Checkbox)  92.4 220.1   3.9   3.9 A
+	1(Checkbox) 101.8 220.1   3.9   3.9 B
+	2(Checkbox) 111.3 220.1   3.9   3.9 C
+	3(Checkbox) 120.7 220.1   3.9   3.9 D
+0.7.23(Choice) 53. {1}
+	0(Checkbox)  92.4 225.3   3.9   3.9 A
+	1(Checkbox) 101.8 225.3   3.9   3.9 B
+	2(Checkbox) 111.3 225.3   3.9   3.9 C
+	3(Checkbox) 120.7 225.3   3.9   3.9 D
+0.7.24(Choice) 54. {1}
+	0(Checkbox)  92.4 230.4   3.9   3.9 A
+	1(Checkbox) 101.8 230.4   3.9   3.9 B
+	2(Checkbox) 111.3 230.4   3.9   3.9 C
+	3(Checkbox) 120.7 230.4   3.9   3.9 D
+0.7.25(Choice) 55. {1}
+	0(Checkbox)  92.4 235.5   3.9   3.9 A
+	1(Checkbox) 101.8 235.5   3.9   3.9 B
+	2(Checkbox) 111.3 235.5   3.9   3.9 C
+	3(Checkbox) 120.7 235.5   3.9   3.9 D
+0.7.26(Choice) 56. {1}
+	0(Checkbox)  92.4 245.8   3.9   3.9 A
+	1(Checkbox) 101.8 245.8   3.9   3.9 B
+	2(Checkbox) 111.3 245.8   3.9   3.9 C
+	3(Checkbox) 120.7 245.8   3.9   3.9 D
+0.7.27(Choice) 57. {1}
+	0(Checkbox)  92.4 250.9   3.9   3.9 A
+	1(Checkbox) 101.8 250.9   3.9   3.9 B
+	2(Checkbox) 111.3 250.9   3.9   3.9 C
+	3(Checkbox) 120.7 250.9   3.9   3.9 D
+0.7.28(Choice) 58. {1}
+	0(Checkbox)  92.4 256.1   3.9   3.9 A
+	1(Checkbox) 101.8 256.1   3.9   3.9 B
+	2(Checkbox) 111.3 256.1   3.9   3.9 C
+	3(Checkbox) 120.7 256.1   3.9   3.9 D
+0.7.29(Choice) 59. {1}
+	0(Checkbox)  92.4 261.2   3.9   3.9 A
+	1(Checkbox) 101.8 261.2   3.9   3.9 B
+	2(Checkbox) 111.3 261.2   3.9   3.9 C
+	3(Checkbox) 120.7 261.2   3.9   3.9 D
+0.7.30(Choice) 60. {1}
+	0(Checkbox)  92.4 266.3   3.9   3.9 A
+	1(Checkbox) 101.8 266.3   3.9   3.9 B
+	2(Checkbox) 111.3 266.3   3.9   3.9 C
+	3(Checkbox) 120.7 266.3   3.9   3.9 D
+0.8(Head) 
+0.8.1(Choice) 61. {1}
+	0(Checkbox) 155.1  91.9   3.9   3.9 A
+	1(Checkbox) 164.6  91.9   3.9   3.9 B
+	2(Checkbox) 174.0  91.9   3.9   3.9 C
+	3(Checkbox) 183.5  91.9   3.9   3.9 D
+0.8.2(Choice) 62. {1}
+	0(Checkbox) 155.1  97.0   3.9   3.9 A
+	1(Checkbox) 164.6  97.0   3.9   3.9 B
+	2(Checkbox) 174.0  97.0   3.9   3.9 C
+	3(Checkbox) 183.5  97.0   3.9   3.9 D
+0.8.3(Choice) 63. {1}
+	0(Checkbox) 155.1 102.1   3.9   3.9 A
+	1(Checkbox) 164.6 102.1   3.9   3.9 B
+	2(Checkbox) 174.0 102.1   3.9   3.9 C
+	3(Checkbox) 183.5 102.1   3.9   3.9 D
+0.8.4(Choice) 64. {1}
+	0(Checkbox) 155.1 107.3   3.9   3.9 A
+	1(Checkbox) 164.6 107.3   3.9   3.9 B
+	2(Checkbox) 174.0 107.3   3.9   3.9 C
+	3(Checkbox) 183.5 107.3   3.9   3.9 D
+0.8.5(Choice) 65. {1}
+	0(Checkbox) 155.1 112.4   3.9   3.9 A
+	1(Checkbox) 164.6 112.4   3.9   3.9 B
+	2(Checkbox) 174.0 112.4   3.9   3.9 C
+	3(Checkbox) 183.5 112.4   3.9   3.9 D
+0.8.6(Choice) 66. {1}
+	0(Checkbox) 155.1 122.6   3.9   3.9 A
+	1(Checkbox) 164.6 122.6   3.9   3.9 B
+	2(Checkbox) 174.0 122.6   3.9   3.9 C
+	3(Checkbox) 183.5 122.6   3.9   3.9 D
+0.8.7(Choice) 67. {1}
+	0(Checkbox) 155.1 127.8   3.9   3.9 A
+	1(Checkbox) 164.6 127.8   3.9   3.9 B
+	2(Checkbox) 174.0 127.8   3.9   3.9 C
+	3(Checkbox) 183.5 127.8   3.9   3.9 D
+0.8.8(Choice) 68. {1}
+	0(Checkbox) 155.1 132.9   3.9   3.9 A
+	1(Checkbox) 164.6 132.9   3.9   3.9 B
+	2(Checkbox) 174.0 132.9   3.9   3.9 C
+	3(Checkbox) 183.5 132.9   3.9   3.9 D
+0.8.9(Choice) 69. {1}
+	0(Checkbox) 155.1 138.0   3.9   3.9 A
+	1(Checkbox) 164.6 138.0   3.9   3.9 B
+	2(Checkbox) 174.0 138.0   3.9   3.9 C
+	3(Checkbox) 183.5 138.0   3.9   3.9 D
+0.8.10(Choice) 70. {1}
+	0(Checkbox) 155.1 143.2   3.9   3.9 A
+	1(Checkbox) 164.6 143.2   3.9   3.9 B
+	2(Checkbox) 174.0 143.2   3.9   3.9 C
+	3(Checkbox) 183.5 143.2   3.9   3.9 D
+0.8.11(Choice) 71. {1}
+	0(Checkbox) 155.1 153.4   3.9   3.9 A
+	1(Checkbox) 164.6 153.4   3.9   3.9 B
+	2(Checkbox) 174.0 153.4   3.9   3.9 C
+	3(Checkbox) 183.5 153.4   3.9   3.9 D
+0.8.12(Choice) 72. {1}
+	0(Checkbox) 155.1 158.6   3.9   3.9 A
+	1(Checkbox) 164.6 158.6   3.9   3.9 B
+	2(Checkbox) 174.0 158.6   3.9   3.9 C
+	3(Checkbox) 183.5 158.6   3.9   3.9 D
+0.8.13(Choice) 73. {1}
+	0(Checkbox) 155.1 163.7   3.9   3.9 A
+	1(Checkbox) 164.6 163.7   3.9   3.9 B
+	2(Checkbox) 174.0 163.7   3.9   3.9 C
+	3(Checkbox) 183.5 163.7   3.9   3.9 D
+0.8.14(Choice) 74. {1}
+	0(Checkbox) 155.1 168.8   3.9   3.9 A
+	1(Checkbox) 164.6 168.8   3.9   3.9 B
+	2(Checkbox) 174.0 168.8   3.9   3.9 C
+	3(Checkbox) 183.5 168.8   3.9   3.9 D
+0.8.15(Choice) 75. {1}
+	0(Checkbox) 155.1 174.0   3.9   3.9 A
+	1(Checkbox) 164.6 174.0   3.9   3.9 B
+	2(Checkbox) 174.0 174.0   3.9   3.9 C
+	3(Checkbox) 183.5 174.0   3.9   3.9 D
+0.8.16(Choice) 76. {1}
+	0(Checkbox) 155.1 184.2   3.9   3.9 A
+	1(Checkbox) 164.6 184.2   3.9   3.9 B
+	2(Checkbox) 174.0 184.2   3.9   3.9 C
+	3(Checkbox) 183.5 184.2   3.9   3.9 D
+0.8.17(Choice) 77. {1}
+	0(Checkbox) 155.1 189.4   3.9   3.9 A
+	1(Checkbox) 164.6 189.4   3.9   3.9 B
+	2(Checkbox) 174.0 189.4   3.9   3.9 C
+	3(Checkbox) 183.5 189.4   3.9   3.9 D
+0.8.18(Choice) 78. {1}
+	0(Checkbox) 155.1 194.5   3.9   3.9 A
+	1(Checkbox) 164.6 194.5   3.9   3.9 B
+	2(Checkbox) 174.0 194.5   3.9   3.9 C
+	3(Checkbox) 183.5 194.5   3.9   3.9 D
+0.8.19(Choice) 79. {1}
+	0(Checkbox) 155.1 199.6   3.9   3.9 A
+	1(Checkbox) 164.6 199.6   3.9   3.9 B
+	2(Checkbox) 174.0 199.6   3.9   3.9 C
+	3(Checkbox) 183.5 199.6   3.9   3.9 D
+0.8.20(Choice) 80. {1}
+	0(Checkbox) 155.1 204.8   3.9   3.9 A
+	1(Checkbox) 164.6 204.8   3.9   3.9 B
+	2(Checkbox) 174.0 204.8   3.9   3.9 C
+	3(Checkbox) 183.5 204.8   3.9   3.9 D
+0.8.21(Choice) 81. {1}
+	0(Checkbox) 155.1 215.0   3.9   3.9 A
+	1(Checkbox) 164.6 215.0   3.9   3.9 B
+	2(Checkbox) 174.0 215.0   3.9   3.9 C
+	3(Checkbox) 183.5 215.0   3.9   3.9 D
+0.8.22(Choice) 82. {1}
+	0(Checkbox) 155.1 220.1   3.9   3.9 A
+	1(Checkbox) 164.6 220.1   3.9   3.9 B
+	2(Checkbox) 174.0 220.1   3.9   3.9 C
+	3(Checkbox) 183.5 220.1   3.9   3.9 D
+0.8.23(Choice) 83. {1}
+	0(Checkbox) 155.1 225.3   3.9   3.9 A
+	1(Checkbox) 164.6 225.3   3.9   3.9 B
+	2(Checkbox) 174.0 225.3   3.9   3.9 C
+	3(Checkbox) 183.5 225.3   3.9   3.9 D
+0.8.24(Choice) 84. {1}
+	0(Checkbox) 155.1 230.4   3.9   3.9 A
+	1(Checkbox) 164.6 230.4   3.9   3.9 B
+	2(Checkbox) 174.0 230.4   3.9   3.9 C
+	3(Checkbox) 183.5 230.4   3.9   3.9 D
+0.8.25(Choice) 88. {1}
+	0(Checkbox) 155.1 235.5   3.9   3.9 A
+	1(Checkbox) 164.6 235.5   3.9   3.9 B
+	2(Checkbox) 174.0 235.5   3.9   3.9 C
+	3(Checkbox) 183.5 235.5   3.9   3.9 D
+0.8.26(Choice) 86. {1}
+	0(Checkbox) 155.1 245.8   3.9   3.9 A
+	1(Checkbox) 164.6 245.8   3.9   3.9 B
+	2(Checkbox) 174.0 245.8   3.9   3.9 C
+	3(Checkbox) 183.5 245.8   3.9   3.9 D
+0.8.27(Choice) 87. {1}
+	0(Checkbox) 155.1 250.9   3.9   3.9 A
+	1(Checkbox) 164.6 250.9   3.9   3.9 B
+	2(Checkbox) 174.0 250.9   3.9   3.9 C
+	3(Checkbox) 183.5 250.9   3.9   3.9 D
+0.8.28(Choice) 88. {1}
+	0(Checkbox) 155.1 256.1   3.9   3.9 A
+	1(Checkbox) 164.6 256.1   3.9   3.9 B
+	2(Checkbox) 174.0 256.1   3.9   3.9 C
+	3(Checkbox) 183.5 256.1   3.9   3.9 D
+0.8.29(Choice) 89. {1}
+	0(Checkbox) 155.1 261.2   3.9   3.9 A
+	1(Checkbox) 164.6 261.2   3.9   3.9 B
+	2(Checkbox) 174.0 261.2   3.9   3.9 C
+	3(Checkbox) 183.5 261.2   3.9   3.9 D
+0.8.30(Choice) 90. {1}
+	0(Checkbox) 155.1 266.3   3.9   3.9 A
+	1(Checkbox) 164.6 266.3   3.9   3.9 B
+	2(Checkbox) 174.0 266.3   3.9   3.9 C
+	3(Checkbox) 183.5 266.3   3.9   3.9 D
+

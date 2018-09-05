@@ -1,0 +1,14 @@
+% This file exists to force the latex document into "final" mode.
+% It is parsed after the setup phase of the SDAPS class.
+
+\@STAMPtrue
+\@PAGEMARKtrue
+
+\setcounter{surveyidlshw}{31719}
+\setcounter{surveyidmshw}{10193}
+\def\surveyid{668040167}
+% We turn off draft mode if questionnaire IDs are not printed.
+\if@PrintQuestionnaireId
+\else
+\@sdaps@draftfalse
+\fi

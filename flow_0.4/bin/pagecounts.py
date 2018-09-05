@@ -1,0 +1,146 @@
+#!/usr/bin/env python
+import pandas as pd
+import re
+import argparse
+import os
+import subprocess
+import errno
+import glob
+import sys
+import pickle
+from multiprocessing import Pool
+from collections import defaultdict
+
+def mkdir_p(path):
+    try:
+        os.makedirs(path)
+    except OSError as exc:  # Python >2.5
+        if exc.errno == errno.EEXIST and os.path.isdir(path):
+            pass
+        else:
+            raise
+
+def repl(x):
+    c = re.sub(r'\W+',' ',x)
+    c = re.sub(r'\s+','_',c)
+    return c
+
+def findPdfFiles(opts):
+    pdf = []
+    print(opts.pdfpat)
+    for rootdir, subdir, files in os.walk(opts.pdir):
+        pdf.extend(['{}/{}'.format(rootdir, x) for x in files if re.match(opts.pdfpat, x)])
+    return pdf
+
+def copyfiles(key,group,opts):
+    dist,crc,brc = key
+    foldergrp = '/'.join(key)
+    folder = '{}/{}/'.format(opts.to,foldergrp)
+    print( "Copying to {}.".format(folder))
+    # create folder
+    mkdir_p(folder)
+    print ("making folder {}".format(folder))
+    schools = list(group['SCHOOL_ID'].unique())
+    for school in schools:
+        langpdf = '{}/{}/{}-lang.pdf'.format(opts.dir, school, school)
+        corepdf = '{}/{}/{}-core.pdf'.format(opts.dir, school, school)
+        for pdf in [langpdf,corepdf]:
+            cmdstr = '/bin/cp {} {}'.format(pdf, folder)
+            print (cmdstr)
+            subprocess.check_output(cmdstr.split())
+
+def sizepdf(pdf):
+    cmd = 'pdftk {} dump_data output | grep "NumberOfPages"'.format(pdf)
+    output = subprocess.check_output(cmd, shell=True)
+    outarr = output.decode('utf-8').strip()
+    n,pages = outarr.split(':')
+    pages = int(pages)
+    fname = os.path.basename(pdf)
+    f = os.path.splitext(fname)[0]
+    return (f,pages)
+    
+def checkNumpages(opts):
+    df = opts.df
+    csv = os.path.basename(opts.csv)
+    block = os.path.splitext(csv)[0]
+    files = opts.pdf
+    
+    with Pool(processes=4) as pool:
+        data = pool.map(sizepdf, files)
+        
+    fdata = defaultdict(list)
+    for x,y in data:
+        d,t = x.split('-')
+        fdata[t].append((int(d), int(y)))
+        
+    ldf = pd.DataFrame(fdata['lang'], columns=['SCHOOL_ID', 'l-count'])
+    cdf = pd.DataFrame(fdata['core'], columns=['SCHOOL_ID', 'c-count'])
+    ldfc = '/tmp/{}-lang.csv'.format(block)
+    cdfc = '/tmp/{}-core.csv'.format(block)
+    ldf.to_csv(ldfc, index=False)
+    cdf.to_csv(cdfc, index=False)
+    odf = df.groupby('SCHOOL_ID').size().reset_index(name='count')
+    odf.sort_values(['SCHOOL_ID'], inplace=True)
+    lmdf = pd.merge(odf, ldf, on='SCHOOL_ID')
+    mdf = pd.merge(lmdf, cdf, on='SCHOOL_ID')
+    mdf['ncount'] = mdf['count'] + 1
+    if not mdf['ncount'].equals(mdf['c-count']):
+        print ("Counts donot match on core pdf for the district {}.".format(block))
+        sys.exit(1)
+    if not mdf['ncount'].equals(mdf['l-count']):
+        print ("Counts donot match on lang pdf for the district {}".format(block))
+        sys.exit(1)
+    mdf.to_csv(opts.ocsv)
+    schs,x = mdf.shape
+    students = mdf['l-count'].sum() - schs
+    #print(students)
+    print ("Page Counts match for the schools in {} district.".format(block))
+    print ("Total Schools: {}".format(schs))
+    print ("Total Students: {}".format(students))
+
+def getCsvFiles(folder):
+    '''
+    Return a list of the CSV files in the folder
+    '''
+    csvfiles = []
+    for rootdir, subdirs, cfiles in os.walk(folder):
+        for csvf in cfiles:
+            if csvf.endswith(".csv"):
+                csvfiles.append('{}/{}'.format(rootdir, csvf))
+    return csvfiles
+
+def main():
+    parser = argparse.ArgumentParser("Check Pagecounts in the pdfs with the csv used to generate the pdfs.")
+    parser.add_argument("--dir", required=True, help="District run directory to process.")
+    parser.add_argument("--csvdir", required=True, help="CSV for the district.")
+    parser.add_argument("--ocsv", required=True, help="Output csv by school and count..")
+    parser.add_argument("--pdfpat", help="Regexp to identify the PDF", default=r'\d+-lang.pdf|\d+-core.pdf')
+    args = '--dir /d/data/pdfgen/run --csvdir /d/data/pdfgen/csvn --ocsv foo.csv --pdfpat *.pdf'
+    #opts = parser.parse_args(args.split())
+    opts = parser.parse_args()
+
+    # check options
+    if not os.path.isdir(opts.dir):
+        print ("Directory {} does not exist.".format(opts.dir))
+        sys.exit(1)
+    if not os.path.isdir(opts.csvdir):
+        print ("Directory {} does not exist.".format(opts.csv))
+        sys.exit(1)
+
+    csvfiles = getCsvFiles(opts.csvdir)
+    csvdata = [(csvf, '{}/pdfgen/{}'.format(
+        opts.dir, os.path.basename(os.path.splitext(csvf)[0]))) for csvf in csvfiles]
+
+    #opts.pdfpat=r'\d+-lang.pdf|\d+-core.pdf'
+    for cf, pdir in csvdata:
+        opts.csv = cf
+        opts.pdir = pdir
+        opts.pdf = findPdfFiles(opts)
+        if not opts.pdf:
+            print("Did not find any PDF files, please check the pdfpattern.")
+            sys.exit(1)
+        opts.df = pd.read_csv(opts.csv)
+        checkNumpages(opts)
+        
+if __name__=='__main__':
+    main()

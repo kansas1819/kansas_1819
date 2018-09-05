@@ -1,0 +1,48 @@
+# define Binaries/programs used
+PYTHON:=python
+CHKQRCODE:= '../../checkqr.py'
+PDFTK:= pdftk
+PDFIMAGES=pdfimages 
+CONTEXT:= context
+GHOSTSCRIPT=gs
+STAMP:="../../4.pdf"
+IMGDIR:=pdfImg
+TEX:=$(wildcard *.tex)
+PDF:=$(patsubst %.tex, %.pdf,${TEX})
+SPDF:=$(patsubst %.tex, %_s.pdf,${TEX})
+TIF:=$(patsubst %.tex, %.tif, ${TEX})
+CHK:=$(patsubst %.tex, %.qrcheck, ${TEX})
+
+all: $(TIF) $(PDF) $(CHK) clean
+
+%_s.pdf: %.pdf
+	$(PDFTK) $< stamp $(STAMP) output $@
+
+# pdf generation
+%.pdf: %.tex
+	$(CONTEXT) --batchmode $<
+
+%.tif: $(IMGDIR) | %.pdf 
+	$(PDFIMAGES) -p -j $(*F).pdf $(IMGDIR)/$@ 
+	touch $@
+
+$(IMGDIR):
+	mkdir -p $(IMGDIR)
+
+%.qrcheck: %.tif
+	$(CHKQRCODE) --csv "sch.csv" --dir $(IMGDIR)
+	touch $@
+
+cleanpdf:
+	rm -f *.toc *.aux *.log *.out *.pdf
+
+clean:
+	rm -f *.toc *.aux *.log *.out 
+
+cleanall:
+	rm -f *.toc *.pdf *.aux *.log *.out
+
+.PHONY: all clean cleanall cleanpdf
+
+.DELETE_ON_ERROR:
+

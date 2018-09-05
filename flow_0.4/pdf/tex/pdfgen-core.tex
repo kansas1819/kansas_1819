@@ -1,0 +1,291 @@
+\setupbodyfont[12pt]
+\setuplayout[backspace=20mm,
+	     width=170mm,
+	     topspace=14mm,
+	     header=12mm, 
+	     footer=20mm,
+	     height=270mm]
+\setuppagenumbering[state={stop}]
+\setupalign [nothyphenated]
+\defineparagraphs 
+[mypar][n=2]
+\setupparagraphs [mypar][1][width=0.84\textwidth]
+\setupparagraphs [mypar][2][width=0.16\textwidth, align=breedte]
+\defineparagraphs 
+[mycpar][n=2]
+\setupparagraphs [mycpar][1][width=0.75\textwidth]
+\setupparagraphs [mycpar][2][width=0.25\textwidth, align=right]
+\startsetups booktabs
+\setupTABLE[frame=off, rulethickness=0.5bp, loffset=1em]
+\setupTABLE[column][first][loffset=0em]
+\setupTABLE[row][first][topframe=on, rulethickness=1bp]
+\setupTABLE[row][2][topframe=on, rulethickness=0.5bp]
+\setupTABLE[row][last] [topframe=on, rulethickness=0.75bp]
+\stopsetups
+\unexpanded\def\fourdots{{\def\periodswidth{.4em}\periods[16]}}
+\setupfootertexts[][{
+	 \setupTABLE[frame=off, rulethickness=0.5bp, offset=1ex]
+	 \bTABLE[align=left]
+	 \bTR \bTD Signature HM: \fourdots \eTD \eTR
+	 \bTR \bTD Date: \fourdots \eTD \eTR
+	 \eTABLE
+		   }][][]
+\setupheader[text][after=\thinrule]
+\setupheadertexts[text][{\tfc Cover Sheet}] [{\tfc Core Subjects(2018)}]
+
+\definesymbol[BigSquare][{\framed[strut=no,width=2ex,height=2ex]{\checkmark}}]
+
+\defineframed
+  [WhiteOnBlack]
+  [background=color,backgroundcolor=black,foregroundcolor=black, strut=no, width=2ex, height=2ex]
+\setupcolors[state=start]
+  
+%%\showframe
+\starttext
+\input cover/buffers.tex
+\startluacode
+local tex = {}
+local function cschooltable(data)
+   tex[#tex+1] = '\\startmycpar'
+   tex[#tex+1] = '\\phantom{X} \\blank'
+   tex[#tex+1] = '\\bTABLE[frame=off]'
+   for i,v in ipairs(data) do
+      if i <= 3 then
+         tex[#tex+1] = '\\bTR '
+         for n,j in pairs(v) do
+            tex[#tex+1] = '\\bTD \\tfa ' .. v[n]  .. '\\eTD'
+         end
+         tex[#tex+1] = '\\eTR'
+      else
+         tex[#tex+1] = '\\eTABLE'
+         tex[#tex+1] = '\\mycpar'
+         tex[#tex+1] = '\\externalfigure[img/core.pdf]'
+         tex[#tex+1] = '\\stopmycpar'
+         tex[#tex+1] = '\\blank[2*big]'
+         tex[#tex+1] = '\\startalignment[center]'
+         tex[#tex+1] = '\\tfb ' .. v[2]
+         tex[#tex+1] = '\\blank[1*big]\n'        
+         tex[#tex+1] = '\\stopalignment \n \\blank[1*big] \n'
+      end
+   end
+end
+
+local function _cschooltable(data)
+   tex[#tex+1] = '\\startmycpar'
+   tex[#tex+1] = '\\bTABLE[frame=off]'
+   for i,v in ipairs(data) do
+      tex[#tex+1] = '\\bTR '
+      for n,j in pairs(v) do
+	 tex[#tex+1] = '\\bTD ' .. v[n]  .. '\\eTD'
+      end
+      tex[#tex+1] = '\\eTR'
+   end
+   tex[#tex+1] = '\\eTABLE'
+   tex[#tex+1] = '\\mycpar'
+   tex[#tex+1] = '\\externalfigure[img/core.pdf]'
+   tex[#tex+1] = '\\stopmycpar'
+end
+
+local function ctablerow(row)
+   tex[#tex+1] = '\\bTR '
+   for i,v in ipairs(row) do
+      tex[#tex+1] = '\\bTD ' .. v  .. '\\eTD'
+   end
+   tex[#tex+1] = '\\eTR '
+end
+
+local function sheettable(cols,rows)
+   tex[#tex+1] = '\\startbuffer[a]'
+   tex[#tex+1] = '\\bTABLE[setups=booktabs, align=middle]'
+   ctablerow(cols)
+   for i,v in ipairs(rows) do
+      ctablerow(v)
+   end
+   tex[#tex+1] = '\\eTABLE'
+   tex[#tex+1] = '\\stopbuffer'
+   local rcopy = table.fastcopy(rows)
+   for i=1,#rcopy do
+      rcopy[i][2] = ''
+   end
+   table.insert(rcopy,1, {'Standard', 'Filled OMR Sheets\\\\(num)'})
+   tex[#tex+1] = '\\startbuffer[b]'
+   tex[#tex+1] = '\\bTABLE[setups=booktabs, align=middle]'
+   for i,v in ipairs(rcopy) do
+      ctablerow(v)
+   end
+   tex[#tex+1] = '\\eTABLE'
+   tex[#tex+1] = '\\stopbuffer'
+   --tex[#tex+1] = '\\getbuffer\\[a\\]'      
+   --tex[#tex+1] = '\\startcombination[2*1]'
+   --tex[#tex+1] = '{\\getbuffer[a]} {{\\bf Table 1~~} Enclosed Sheets}'
+   --tex[#tex+1] = '{\\getbuffer[b]} {{\\bf Table 2~~} Filled  Sheets}'
+   --tex[#tex+1] = '\\stopcombination'
+end
+
+local function _genCover()
+   local csvobj = utilities.parsers.rfc4180splitter{
+      separator = ",",
+      quote = '"',
+   }
+   local csvfile = io.loaddata(".schinfo")
+   -- with header variant
+   local tablerows, cols = csvobj(csvfile,true)
+   --cols = clobberCols(cols)
+   --inspect(tablerows)
+   --inspect(cols)
+   cschooltable(tablerows)
+   --inspect(tex)
+   --tex[#tex+1] = '\\input cover/inst.tex'
+   
+   local csvfile = io.loaddata(".numsheets")
+   -- with header variant
+   local tablerows, cols = csvobj(csvfile,true)
+   --cols = clobberCols(cols)
+   --inspect(tablerows)
+   tex[#tex+1] = '\\input cover/inst-core.tex'
+   --sheettable(cols,tablerows)
+   tex[#tex+1] = '\\blank[1*big] \\hskip3em'
+   tex[#tex+1] = '{\\startcombination[2*1, distance=3cm]'
+   tex[#tex+1] = '{\\getbuffer[a]} {{\\bf Table 1~~} Enclosed Sheets}'
+   tex[#tex+1] = '{\\getbuffer[b]} {{\\bf Table 2~~} Filled  Sheets}}'
+   --inspect(tex)
+   context(table.concat(tex,"\n"))
+end
+
+local function genCover()
+   local csvobj = utilities.parsers.rfc4180splitter{
+      separator = ",",
+      quote = '"',
+   }
+   local csvfile = io.loaddata(".schinfo")
+   -- with header variant
+   local tablerows, cols = csvobj(csvfile,true)
+   --cols = clobberCols(cols)
+   --inspect(tablerows)
+   --inspect(cols)
+   cschooltable(tablerows)
+   --inspect(tex)
+   --tex[#tex+1] = '\\input cover/inst.tex'
+   
+   local csvfile = io.loaddata(".numsheets")
+   -- with header variant
+   local tablerows, cols = csvobj(csvfile,true)
+   --cols = clobberCols(cols)
+   --inspect(tablerows)
+   --tex[#tex+1] = '\\input cover/inst-lang.tex'
+   --sheettable(cols,tablerows)
+   tex[#tex+1] = '\\blank[1*big] \\hskip3em' 
+   --tex[#tex+1] = '{\\startcombination[distance=3cm]'
+   tex[#tex+1] = '\\startalignment[center]'            
+   tex[#tex+1] = '\\blank {{\\bf Table 1~~} OMR Sheets Enclosed}\\blank {\\getbuffer[a]}\\blank[2*big]'
+   tex[#tex+1] = '\\hrule\\blank {\\bf For the use of HM}\\hfill\\blank'
+   tex[#tex+1] = '\\stopalignment'
+   tex[#tex+1] = '\\startalignment[center]'                          
+   tex[#tex+1] = 'Fill {\\bf Table 2} after the Assessment. Sign the sheet and place it at the top of the {\\bi Core Subjects} OMR bundle.\\hfill\\blank[2*big]'
+   
+   tex[#tex+1] = '{\\bf Table 2~~} OMR Sheets Returned(Filled + Absent)\\blank \\getbuffer[b] \\blank \\noindent \\blank'
+   tex[#tex+1] = '\\stopalignment \n \\blank[1*big] \n'          
+   --inspect(tex)
+   context(table.concat(tex,"\n"))
+end
+
+local function qpSetString(row)
+   local qpstr = ''
+   local s = row['STANDARD']
+   local l = row['STUMEDIUM']
+   --print("medium")
+   --inspect(row)
+   qpstr = string.format('{\\hskip5.2cm \\type{%s1%s} \\hskip2.5ex \\type{%s2%s} \\hskip2.5ex \\type{%s3%s} \\hskip2.5ex \\type{%s4%s}}',s,l,s,l,s,l,s,l)
+   return qpstr
+end
+
+local function getPaperType()
+   local fname = environment.arguments['fulljobname']
+   local t = string.split(fname, lpeg.S("-."))
+   return t[#t-1]
+end
+
+local function cPage(row,cols)
+   local names = {}
+   for i,cname in ipairs(cols) do
+      names[cname] = row[i]
+   end
+   ptype = getPaperType()
+   png = string.split(names["Images"],lpeg.S("-"))
+   if ptype == "core" then
+      names["Images"] = png[1] .. '-c.png'
+   end
+   names['QPS'] = qpSetString(names)
+   --names['QPS'] = 'foo'
+   --inspect(names)
+   if names['STANDARD'] == "4" or names['STANDARD'] == "5" then
+      context('\\defineoverlay[backgroundfigure][\\overlayfigure{../45-core-sig.pdf}]')
+      context('\\setupbackgrounds[page][background=backgroundfigure]')
+   else
+      context('\\defineoverlay[backgroundfigure][\\overlayfigure{../69-core-sig.pdf}]')
+      context('\\setupbackgrounds[page][background=backgroundfigure]')
+   end
+   page = [[  \noindent \startmypar
+       \bTABLE[frame=off]
+       \setupTABLE[row][each][height=0.4in]
+       \setupTABLE[column][1][width=3cm]
+       \setupTABLE[column][2][width=11cm]
+        \bTR \bTD {\bf Name:} \eTD \bTD {$STUNAME} \eTD \eTR
+        \bTR \bTD {\bf School:} \eTD \bTD {$SCHOOLNAME} \eTD \eTR
+        \bTR[height=0.2in] \bTD {\bf  DISE/Stu. Id:}\eTD \bTD  $SCHOOLID |/| $CHILDENROLLNO \eTD \eTR
+        \bTR[height=0.2in] \bTD {\bf  Standard:} \eTD \bTD $STANDARD \eTD \eTR
+        \bTR[height=0.2in]
+        \bTD[nc=2] $QPS \eTD
+        \eTR
+      \eTABLE
+      \mypar
+      \tbox{\externalfigure[$Images][width=3.25cm]}
+    \stopmypar
+    \par
+   ]]
+   context(string.gsub(page, "%$(%w+)", names))
+   --print(string.gsub(page, "%$(%w+)", names))
+end
+
+local function clobberCols(cols)
+   local ncols = {}
+   for i,v in ipairs(cols) do
+      ncols[#ncols+1] = string.gsub(v,'_','')
+   end
+   return ncols
+end
+
+function genPdf()
+   local csvobj = utilities.parsers.rfc4180splitter{
+      separator = ",",
+      quote = '"',
+   }
+   local csvfile = io.loaddata("sch.csv")
+   -- with header variant
+   local tablerows, cols = csvobj(csvfile,true)
+   cols = clobberCols(cols)
+   
+   for i,row in ipairs(tablerows) do
+      cPage(row, cols)
+      if i < #tablerows then
+	 context('\\page[yes]')
+      end
+   end
+end
+
+genCover()
+local tex = {'\\page[yes]'}
+tex[#tex+1] = '\\setupfootertexts[]'
+tex[#tex+1] = '\\setupheadertexts[]'
+tex[#tex+1] = '\\setupheader[text][after={}]'
+tex[#tex+1] = '\\setuplayout[backspace=6mm,'
+tex[#tex+1] = 'width=170mm,'
+tex[#tex+1] = 'topspace=17mm,'
+tex[#tex+1] = 'header=5mm,' 
+tex[#tex+1] = 'footer=20mm,'
+tex[#tex+1] = 'height=250mm]'
+tex[#tex+1] = '\\setupbodyfont[11pt]'
+context(table.concat(tex,"\n"))
+genPdf()
+\stopluacode
+\stoptext
