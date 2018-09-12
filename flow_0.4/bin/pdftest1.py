@@ -143,6 +143,7 @@ def processDistrict(opts):
     confinter = 5
     sigma = 1/2
     nsamples = sampleSize(popsize)
+    #nsamples=600
     print("Sampling {} sheets.".format(nsamples))
     for ptype in ['core', 'lang']:
         sdf = df.sample(nsamples)

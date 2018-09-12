@@ -164,6 +164,9 @@ local function qpSetString(row)
    local qpstr = ''
    local s = row['STANDARD']
    local l = row['STUMEDIUM']
+   if s == "10" then
+       s = "0"
+   end
    qpstr = string.format('{\\hskip5.2cm \\type{%s1%s} \\hskip2.5ex \\type{%s2%s} \\hskip2.5ex \\type{%s3%s} \\hskip2.5ex \\type{%s4%s}}',s,l,s,l,s,l,s,l)
    return qpstr
 end

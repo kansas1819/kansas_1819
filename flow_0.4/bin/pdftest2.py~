@@ -76,11 +76,15 @@ def getCsvFiles(folder):
                 csvfiles.append('{}/{}'.format(rootdir, csvf))
     return csvfiles
 
-def xtract(pdf,page,npdf,tmpdir):
+def _xtract(pdf,page,npdf,tmpdir):
     cmd = ['pdftk', pdf, 'cat', str(page), 'output', '{}/{}'.format(tmpdir,npdf)]
     print(' '.join(cmd))
     p = subprocess.run(' '.join(cmd), shell=True, check=True)
 
+def xtract(pdf,page,npdf,tmpdir):
+    cmd = ['cpdf', pdf, str(page),f'{tmpdir}/{npdf}']
+    print(' '.join(cmd))
+    p = subprocess.run(' '.join(cmd), shell=True, check=True)
 
 
 def chunks(l, n):
@@ -98,7 +102,7 @@ def pdfTypes(df):
         pdfd['std69{}'.format(i)] = chunk
     return pdfd
         
-def extractPages(opts):
+def _extractPages(opts):
     df = opts.df
     testdir = '{}/test'.format(opts.rundir)
     papertype = opts.papertype
@@ -144,7 +148,57 @@ def extractPages(opts):
         cmd = 'cp -r {} {}'.format(dbspath, dbdpath)
         subprocess.run(cmd, shell=True, check=True)
 
+def extractPages(opts):
+    df = opts.df
+    testdir = '{}/test'.format(opts.rundir)
+    papertype = opts.papertype
+    data = df[['pdf', 'page','npdf']].values.tolist()
+    district = df.DISTRICT_NAME.unique().tolist()[0].replace(' ','_')
+    #block = df.BRC_ID.unique().tolist()[0]
+    print("Pdftypes:")
+    print(pdfTypes(df))
+    return
 
+    with tempfile.TemporaryDirectory() as tmpdir:
+        z = [x.append(tmpdir) for x in data]
+        with Pool(processes=4) as pool:
+            pdf = pool.starmap(xtract, data)
+        
+        opath = '{}/{}/{}/45/45.pdf'.format(testdir, district, papertype)
+        dirname = os.path.dirname(opath)
+        os.makedirs(dirname, exist_ok=True)
+        #cmd = ['pdftk', '{}/*-[45]-*.pdf'.format(tmpdir), 'cat', 'output', opath]
+        cmd = ['cpdf', '-merge', '{tmpdir}/*-[45]-*.pdf', '-o', opath]
+        subprocess.run(' '.join(cmd), shell=True, check=True)
+        
+        stmppdf = '{}/forms/45-{}-stamp.pdf'.format(opts.flowdir, papertype)
+        opaths = '{}/{}/{}/45/45-stamp.pdf'.format(testdir, district, papertype)
+        #cmd = ['pdftk', opath, 'multistamp', stmppdf, 'output', opaths]
+        cmd = ['cpdf', '-stamp-on', stmppdf, opath, '-o', opaths]
+        subprocess.run(' '.join(cmd), shell=True, check=True)
+        dbdpath = os.path.dirname(opaths)
+        dbspath = '{}/forms/{}/45/db'.format(opts.flowdir, papertype)
+        cmd = 'cp -r {} {}'.format(dbspath, dbdpath)
+        subprocess.run(cmd, shell=True, check=True)
+        
+        opath = '{}/{}/{}/69/69.pdf'.format(testdir, district, papertype)
+        dirname = os.path.dirname(opath)
+        os.makedirs(dirname, exist_ok=True)
+        #cmd = ['pdftk', '{}/*-[6789]-*.pdf'.format(tmpdir), 'cat', 'output', opath]
+        cmd = ['cpdf', '-merge', '{tmpdir}/*-[6-9]-*.pdf', '-o', opath]
+        subprocess.run(' '.join(cmd), shell=True, check=True)
+
+        stmppdf = '{}/forms/69-{}-stamp.pdf'.format(opts.flowdir, papertype)
+        opaths = '{}/{}/{}/69/69-stamp.pdf'.format(testdir, district, papertype)
+        #cmd = ['pdftk', opath, 'multistamp', stmppdf, 'output', opaths]
+        cmd = ['cpdf', '-stamp-on', stmppdf, opath, '-o', opaths]
+        subprocess.run(' '.join(cmd), shell=True, check=True)
+        dbdpath = os.path.dirname(opaths)
+        dbspath = '{}/forms/{}/69/db'.format(opts.flowdir, papertype)
+        cmd = 'cp -r {} {}'.format(dbspath, dbdpath)
+        subprocess.run(cmd, shell=True, check=True)
+
+        
 def processDistrict(opts):
         
     df = pd.read_csv(opts.csv).sort_values(['SCHOOL_ID', 'STANDARD','STU_NAME'])

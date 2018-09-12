@@ -80,49 +80,57 @@ def xtract(pdf,page,npdf,tmpdir):
     cmd = ['pdftk', pdf, 'cat', str(page), 'output', '{}/{}'.format(tmpdir,npdf)]
     print(' '.join(cmd))
     p = subprocess.run(' '.join(cmd), shell=True, check=True)
-    return p.stdout
 
+
+
+def chunks(l, n):
+    """Yield successive n-sized chunks from l."""
+    for i in range(0, len(l), n):
+        yield l[i:i + n]
+
+def pdfTypes(df):
+    pdfd = defaultdict(list)
+    std45 = df[df.STANDARD.isin([4,5])]
+    for i,chunk in enumerate(chunks (std45.npdf.values.tolist(), 50)):
+        pdfd['std45{}'.format(i)] = chunk
+    std69 = df[df.STANDARD.isin([6,7,8,9,0])]
+    for i,chunk in enumerate(chunks (std69.npdf.values.tolist(), 50)):
+        pdfd['std69{}'.format(i)] = chunk
+    return pdfd
+        
 def extractPages(opts):
     df = opts.df
     testdir = '{}/test'.format(opts.rundir)
     papertype = opts.papertype
     data = df[['pdf', 'page','npdf']].values.tolist()
     district = df.DISTRICT_NAME.unique().tolist()[0].replace(' ','_')
-    #block = df.BRC_ID.unique().tolist()[0]
+    pdfd = pdfTypes(df)
+
     with tempfile.TemporaryDirectory() as tmpdir:
         z = [x.append(tmpdir) for x in data]
         with Pool(processes=4) as pool:
             pdf = pool.starmap(xtract, data)
-        print (pdf)
-        opath = '{}/{}/{}/45/45.pdf'.format(testdir, district, papertype)
-        dirname = os.path.dirname(opath)
-        os.makedirs(dirname, exist_ok=True)
-        cmd = ['pdftk', '{}/*-[45]-*.pdf'.format(tmpdir), 'cat', 'output', opath]
-        subprocess.run(' '.join(cmd), shell=True, check=True)
-        
-        stmppdf = '{}/forms/45-{}-stamp.pdf'.format(opts.flowdir, papertype)
-        opaths = '{}/{}/{}/45/45-stamp.pdf'.format(testdir, district, papertype)
-        cmd = ['pdftk', opath, 'multistamp', stmppdf, 'output', opaths]
-        subprocess.run(' '.join(cmd), shell=True, check=True)
-        dbdpath = os.path.dirname(opaths)
-        dbspath = '{}/forms/{}/45/db'.format(opts.flowdir, papertype)
-        cmd = 'cp -r {} {}'.format(dbspath, dbdpath)
-        subprocess.run(cmd, shell=True, check=True)
-        
-        opath = '{}/{}/{}/69/69.pdf'.format(testdir, district, papertype)
-        dirname = os.path.dirname(opath)
-        os.makedirs(dirname, exist_ok=True)
-        cmd = ['pdftk', '{}/*-[6789]-*.pdf'.format(tmpdir), 'cat', 'output', opath]
-        subprocess.run(' '.join(cmd), shell=True, check=True)
 
-        stmppdf = '{}/forms/69-{}-stamp.pdf'.format(opts.flowdir, papertype)
-        opaths = '{}/{}/{}/69/69-stamp.pdf'.format(testdir, district, papertype)
-        cmd = ['pdftk', opath, 'multistamp', stmppdf, 'output', opaths]
-        subprocess.run(' '.join(cmd), shell=True, check=True)
-        dbdpath = os.path.dirname(opaths)
-        dbspath = '{}/forms/{}/69/db'.format(opts.flowdir, papertype)
-        cmd = 'cp -r {} {}'.format(dbspath, dbdpath)
-        subprocess.run(cmd, shell=True, check=True)
+        for key, value in pdfd.items():
+            if key.startswith('std45'):
+                pt = '45'
+            else:
+                pt = '69'
+            opath = '{}/{}/{}/{}/{}.pdf'.format(testdir, district, papertype, key, pt)
+            dirname = os.path.dirname(opath)
+            os.makedirs(dirname, exist_ok=True)
+            pdfs = ['{}/{}'.format(tmpdir,x) for x in value]
+            cmd = ['pdftk'] + pdfs + ['cat', 'output', opath]
+            subprocess.run(' '.join(cmd), shell=True, check=True)
+            
+            stmppdf = '{}/forms/{}-{}-stamp.pdf'.format(opts.flowdir, pt, papertype)
+            opaths = '{}/{}/{}/{}/{}-stamp.pdf'.format(testdir, district, papertype,key,pt)
+            cmd = ['pdftk', opath, 'multistamp', stmppdf, 'output', opaths]
+            subprocess.run(' '.join(cmd), shell=True, check=True)
+            dbdpath = os.path.dirname(opaths)
+            dbspath = '{}/forms/{}/{}/db'.format(opts.flowdir, papertype, pt)
+            cmd = 'cp -r {} {}'.format(dbspath, dbdpath)
+            subprocess.run(cmd, shell=True, check=True)
 
 
 def processDistrict(opts):

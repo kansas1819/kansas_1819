@@ -27,31 +27,13 @@ RUN_DIR='.'
 PDFDIR='pdfgen'
 CSV_DIR='csv'
 CSVDIRS = csvdirs(CSV_DIR)
-PAGECOUNTS='{}/bin/pagecounts.py'.format(FLOWDIR)
 
 
-ruleorder: pdfgensetup > pdfgen > pdftestsetup > pdftest > pdfrelease 
-
-
-rule all:
-    input: '.pgcounts'
+ruleorder: pdfgensetup > pdfgen > pdftestsetup > pdftest
     
-rule pagecounts:
-    input: '.pdfrel'
-    output: '.pgcounts'
-    shell:
-         ''' 
-	{PYTHON} {PAGECOUNTS} --dir {RUN_DIR} --csvdir {CSV_DIR} --ocsv pagecounts.csv
-         touch {output}
-         '''
-
-rule pdfrel:
+rule all:
     input: expand('release/{dist}/.pdfrel', dist=CSVDIRS)
-    output: 
-         '.pdfrel'
-    shell:
-         'touch {output}'
-
+        
 rule pdfgensetup:
     input:
         'csv/{dist}.csv'
@@ -137,3 +119,4 @@ rule pdfrelease:
         '''
         touch {output}
         '''
+

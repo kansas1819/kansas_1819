@@ -254,7 +254,7 @@ def formatData(csvfile):
     #colstodrop=['SCHOOL_MEDIUM']
     df = df[df.columns.difference(colstodrop)]
     # drop all rows if any fields are NA
-    df.dropna(inplace=True)
+    # df.dropna(inplace=True)
     # munge text in cols
     df['SCHOOL_NAME'] = df['SCHOOL_NAME'].apply(latex)
     df['STU_NAME'] = df['STU_NAME'].apply(latex)

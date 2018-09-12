@@ -1,0 +1,10 @@
+#!/bin/bash
+source /home/sikshana/.bashrc
+rsync -avz sikshana@192.168.0.15:/home/sikshana/sas/flow_0.3/ ~/sas/flow_0.3
+mkdir -p /home/sikshana/test_$(date -I)/csv
+/home/sikshana/sas/flow/bin/setupsample.sh
+cd /home/sikshana/test_$(date -I)/
+ln -s /home/sikshana/sas/flow/pdf/Snakefile /home/sikshana/test_$(date -I)/Snakefile
+/opt/anaconda3/bin/snakemake -n --printshellcmds
+/opt/anaconda3/bin/snakemake >test_$(date -I).log 2>&1
+
